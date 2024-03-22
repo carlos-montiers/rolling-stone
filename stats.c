@@ -10,7 +10,12 @@
 */ 
 
 #include "board.h"
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#else
 #include <sys/resource.h>
+#endif
 
 MOVE DummyMove = {ENDPATH,ENDPATH,ENDPATH,ENDPATH};
 long area_pos_nc=0, area_neg_nc=0;	/* node counts for pos/neg searches */
@@ -94,7 +99,18 @@ void init_stats() {
 void print_stats(int pri) {
         int i,ttl;
 	time_t t;
+#ifdef _WIN32
+	FILETIME creationtime, exittime, kerneltime, usertime;
+	ULARGE_INTEGER uli;
+	struct {
+		struct {
+			int tv_sec;
+			int tv_usec;
+		} ru_utime;
+	} r_usage;
+#else
 	struct rusage r_usage;
+#endif
 	
 	Debug(pri,0, "tt: %c, dl_mg: %c, dl2_mg: %c\n",
 		Options.tt==1?'Y':'N', Options.dl_mg==1?'Y':'N',
@@ -143,7 +159,20 @@ void print_stats(int pri) {
 	if (IdaInfo->PrintPriority >= pri) {
 		Mprintf( 0, " \n");
 
+#ifdef _WIN32
+		GetProcessTimes(GetCurrentProcess(), &creationtime, &exittime, &kerneltime, &usertime);
+		uli.LowPart = usertime.dwLowDateTime;
+		uli.HighPart = usertime.dwHighDateTime;
+
+		long long microseconds = uli.QuadPart / 10LL;
+		long long seconds = microseconds / 1000000LL;
+		long long remainingMicroseconds = microseconds % 1000000LL;
+
+		r_usage.ru_utime.tv_sec = seconds;
+		r_usage.ru_utime.tv_usec = remainingMicroseconds;
+#else
 		getrusage(RUSAGE_SELF,&r_usage);
+#endif
 		t = r_usage.ru_utime.tv_sec;
 		if (r_usage.ru_utime.tv_usec>500000) t++;
 		if (t==0) t=1;

@@ -39,7 +39,7 @@ int StartIda(int nomacro) {
 	AreaMaze = CopyMaze( IdaInfo->IdaMaze );
 	DInsertMaze = CopyMaze( IdaInfo->IdaMaze );
 	InsertMaze = CopyMaze( IdaInfo->IdaMaze );
-	SetTimer();
+	Set_Timer();
 	init_stats();
 
 START_IDA:

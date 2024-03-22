@@ -8,6 +8,13 @@ OPT = -m32 -O0
 
 PC = -DPC
 
+# Set stack size to 8 MB for Windows and Linux compatibility
+ifeq ($(OS),Windows_NT)
+  LDFLAGS = -Wl,--stack,8388608
+else
+  LDFLAGS = -Wl,-z,stack-size=8388608
+endif
+
 #DEBUG = -DDEBUG
 #GTV = -DGTV
 
@@ -25,7 +32,7 @@ board.o: board.h  init.h
 init.o: board.h
 
 RS: $(OBJ) board.h  init.h dl.c
-	$(CC) $(CFLAGS) -o RS $(OBJ) $(LIB)
+	$(CC) $(CFLAGS) -o RS $(OBJ) $(LIB) $(LDFLAGS)
 
 RStest: $(OBJ) board.h  init.h dl.c
 	$(CC) $(CFLAGS) -o RStest $(OBJ) $(LIB)
