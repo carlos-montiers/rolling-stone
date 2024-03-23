@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,12 +7,12 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 void  InitMaze(MAZE *maze);
 void  ResetMaze(MAZE *maze);
 void  DelMaze(MAZE *maze);
-MAZE *CopyMaze(MAZE *maze); 
+MAZE *CopyMaze(MAZE *maze);
 void  DelCopiedMaze(MAZE *maze);
 MAZE *UpdateMaze(MAZE *maze, MAZE *target_maze);
 

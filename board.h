@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include <signal.h>
 #include <time.h>
@@ -293,11 +293,11 @@ typedef struct {
 
 typedef struct {
 		/* first put all the fluent things for fast partial copies */
-	BitString    stone;	
-	BitString    goal;	
-	BitString    reach;	
-	BitString    no_reach;	
-	BitString    old_no_reach;	
+	BitString    stone;
+	BitString    goal;
+	BitString    reach;
+	BitString    no_reach;
+	BitString    old_no_reach;
 	BitString    stones_done;	/* stones in goal area for good */
 	PHYSID       manpos;
 	int          h;
@@ -348,11 +348,11 @@ typedef struct {
 
 typedef struct {
 		/* first put all the fluent things for fast partial copies */
-	BitString    stone;	
-	BitString    goal;	
-	BitString    reach;	
-	BitString    no_reach;	
-	BitString    old_no_reach;	
+	BitString    stone;
+	BitString    goal;
+	BitString    reach;
+	BitString    no_reach;
+	BitString    old_no_reach;
 	BitString    stones_done;	/* stones in goal area for good */
 	PHYSID       manpos;
 	int          h;
@@ -409,7 +409,7 @@ typedef struct {
 				 * normal search is setup, therefore
 				 * contains ALL nodes searched (real) */
 	long       nodes_depth[MAX_DEPTH];
-	
+
 	long       tt_hits;
 	long       tt_cols;
 	long       tt_reqs;

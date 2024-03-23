@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -38,14 +38,14 @@ PHYSID  FindEndTunnel(MAZE *maze, PHYSID pos, int diff, PHYSID *last_over) {
 		from_dir = DiffToDir(-diff);
 		waystogo = 0;
 		for (dir=NORTH; dir<=WEST; dir++) {
-			if (   IsBitSetBS(maze->S[dir],next) 
+			if (   IsBitSetBS(maze->S[dir],next)
 		    	    && ConnectedDir(maze,next,from_dir,OppDir[dir])) {
 				waystogo++; next_dir = DirToDiff[dir];
 			}
 		}
 		if (waystogo==0) {
 			/* DeadEnd, Don't go here */
-			return(0); 
+			return(0);
 		} else if (waystogo==1) {
 			/* still in tunnel, go on */
 			return(FindEndTunnel(maze,next,next_dir,last_over));
@@ -60,7 +60,7 @@ PHYSID  FindEndTunnel(MAZE *maze, PHYSID pos, int diff, PHYSID *last_over) {
 	return(next);
 }
 
-void FindStartEndTunnel(MAZE *maze, int diff, 
+void FindStartEndTunnel(MAZE *maze, int diff,
 			PHYSID pos, PHYSID *start, PHYSID *end)
 {
 	int        dir;
@@ -118,7 +118,7 @@ void RemoveGRoom(MAZE *maze, int gridx)
 	maze->number_grooms--;
 }
 
-void AddMacro(MAZE *maze, PHYSID pos, int type, PHYSID from, 
+void AddMacro(MAZE *maze, PHYSID pos, int type, PHYSID from,
 			    PHYSID last_over, PHYSID to) {
 
 	int n;
@@ -187,7 +187,7 @@ void AsimGoals(MAZE *maze, PHYSID pos, GROOM *groom)
 	if (maze->Phys[pos].goal>=0) {
 		GroomIncPos(maze,pos,groom);
 		for (dir=NORTH; dir<=WEST; dir++) {
-			if (IsBitSetBS(maze->M[dir],pos)) 
+			if (IsBitSetBS(maze->M[dir],pos))
 				AsimGoals(maze,pos+DirToDiff[dir],groom);
 		}
 		return;
@@ -205,8 +205,8 @@ void SetMinDist(MAZE *maze)
 		min_dist[pos] = ENDPATH;
 		for (goali=0; goali<maze->number_goals; goali++) {
 		     dist = ManDist(maze,maze->goals[goali].loc,pos);
-		     if (min_dist[pos] > dist) min_dist[pos] = dist; 
-		}		
+		     if (min_dist[pos] > dist) min_dist[pos] = dist;
+		}
 		if (maze->PHYSstone[pos]>=0) min_dist[pos] = min_dist[pos]+1;
 	}
 }
@@ -328,7 +328,7 @@ void GrowDFS(MAZE *maze, GROOM *groom, int g)
 
 	BitAndNotBS(tmp,BestGoalArea,groom->squares);
 	if (Isnt0BS(tmp)) return;
-	
+
 	/* check if already looked at */
 	if (GGGetHashTable(groom->hashkey)) return;
 	GGStoreHashTable(groom->hashkey);
@@ -375,7 +375,7 @@ void GrowDFS(MAZE *maze, GROOM *groom, int g)
 }
 
 int GrowRoom(MAZE *maze, PHYSID pos, GROOM *groom)
-/* run a DFS Branch and Bound through the goal area search space to find 
+/* run a DFS Branch and Bound through the goal area search space to find
  * the "best" goal area topology, least entrances and then most squares. */
 {
 	PHYSID p;
@@ -406,7 +406,7 @@ void PickUpEntrances(MAZE *maze, int index) {
 	int dir,i;
 	PHYSID manioentr[MAX_LOCATIONS];
 	PHYSID manioloca[MAX_LOCATIONS];
-	
+
 	maze->grooms[index].n = 0;
 	maze->grooms[index].maninout = 0;
 	maze->grooms[index].deadentrances = 0;
@@ -419,7 +419,7 @@ void PickUpEntrances(MAZE *maze, int index) {
 			if (  maze->groom_index[pos+DirToDiff[dir]]<0) {
 			    if (IsBitSetBS(maze->S[OppDir[dir]],pos+DirToDiff[dir])) {
 				maze->grooms[index].
-					locations[maze->grooms[index].n] 
+					locations[maze->grooms[index].n]
 					= pos;
 				maze->grooms[index].
 					entrances[maze->grooms[index].n]
@@ -617,12 +617,12 @@ GMNODE *GetGMTree() {
 	gmnode->entries		= NULL;
 	return(gmnode);
 }
-	
+
 void GetProperties(MAZE *maze, GROOM *groom, int properties[MAXGOALS])
 {
 
 	int entri, min_dist, goali;
-	int dist, closest; 
+	int dist, closest;
 	int min_d[MAX_LOCATIONS];
 	int    changed_fixed;
 	PHYSID pos;
@@ -728,7 +728,7 @@ void GetSquareValues(MAZE *maze, GROOM *groom,
 
 void MarkReachGRoom(MAZE *maze, int index) {
 /* recursive function to mark the fields that are reachable */
-	
+
 	static PHYSID stack[ENDPATH];
 	PHYSID pos;
 	int next_in, next_out,dir;
@@ -752,7 +752,7 @@ void MarkReachGRoom(MAZE *maze, int index) {
 		if (AvoidThisSquare==pos) continue;
 		SetBitBS(maze->reach,pos);
 		for (dir=NORTH; dir<=WEST; dir++) {
-			if (IsBitSetBS(maze->M[dir],pos)) 
+			if (IsBitSetBS(maze->M[dir],pos))
 				stack[next_in++] = pos +DirToDiff[dir];
 		}
 	}
@@ -766,8 +766,8 @@ int GoalReach(MAZE *maze, GROOM *groom, int values[MAXGOALS], PHYSID start,
 {
 /* pseudo-recursive function to mark the fields that are reachable */
 /* v contains all bits set for locations of goals that are reachable */
-/* index is the goal room index, 
-   1.) if index < 0 then allow the man to go all over the place 
+/* index is the goal room index,
+   1.) if index < 0 then allow the man to go all over the place
    2.) if optimal==YES then allow only to reach goals the optimal way */
 /* return if there is any square not reachable == dead */
 
@@ -792,7 +792,7 @@ int GoalReach(MAZE *maze, GROOM *groom, int values[MAXGOALS], PHYSID start,
 		fro = from[next_out];
 		dis = dist[next_out];
                 pos = stack[next_out++];
-                if (maze->PHYSstone[pos] >= 0) 
+                if (maze->PHYSstone[pos] >= 0)
 			continue;
 		if (   optimal
 		    && !IsBitSetBS(maze->one_way,pos)
@@ -869,7 +869,7 @@ int  GetBaseProps(MAZE *maze, GROOM *groom, int values[MAXGOALS])
 {
 	int goali,entri,mark,optimal,index;
 	int dead;
-	
+
 	for (goali=0; goali<maze->number_goals; goali++) {
 		values[goali] = 0;
 	}
@@ -972,30 +972,30 @@ int  ValueSquare(MAZE *maze, GROOM *groom, int goal_index,
 		    }
 		}
 	}
-	
+
 	/* check out if we should calculate new distances */
 	if (   com_count    > 1 /* discount self references */
 	    || strict_count > 0
 	    || loose_count  > 0
 	    || optim_count  > 0)
 		before[goal_index] |= PROP_NEWDIST;
-	else 
+	else
 		before[goal_index] &= ~PROP_NEWDIST;
-	
+
 	/* check out if any goal square is obsctructed */
 	if (   inside_count == 0
 	    && strict_count == 0
 	    && loose_count  == 0
 	    && optim_count  == 0)
 		before[goal_index] |= PROP_NONOBST;
-	else 
+	else
 		before[goal_index] &= ~PROP_NONOBST;
 
 	if (loose_count == 0) before[goal_index] &= ~PROP_NONREACH;
 	else before[goal_index] |= PROP_NONREACH;
 
 	return(   PEN_COM_COUNT    * com_count	   /* comunications lost */
-		+ PEN_STRICT_COUNT * strict_count 
+		+ PEN_STRICT_COUNT * strict_count
 		+ PEN_LOOSE_COUNT  * loose_count
 		+ PEN_OPTIM_COUNT  * optim_count
 		+ PEN_INSIDE_COUNT * inside_count
@@ -1054,7 +1054,7 @@ int FindBestSquare(MAZE *maze, GROOM *groom,
 		value = values[goali]
 		      + ValueSquareEntr(entri,before[goali],groom->n);
 		if (value >= PEN_DEAD_COUNT) continue;
-	
+
 		if (best_value > value) {
 			best_value  = value;
 			best_index  = goali;
@@ -1092,7 +1092,7 @@ int FindBestSquare(MAZE *maze, GROOM *groom,
 void CreateGMacro(MAZE *maze, GROOM *groom, int entri, int goali,
 		GMNODE *gmnode, GMNODE *ret_gmnode, int before[MAXGOALS])
 {
-	int index; 
+	int index;
 
 	index = gmnode->number_entries++;
 	gmnode->entries = (GMENTRY*)My_realloc(
@@ -1154,7 +1154,7 @@ int CreatePropGMacro(MAZE *maze, GROOM *groom, GMNODE *gmnode, int depth,
    PHYSID pos;
 
    number_found = 0;
-   do {	
+   do {
 	best_index=FindBestSquare(maze,groom,prop,entri,values,before);
 
 	if (best_index == -1) break;
@@ -1202,7 +1202,7 @@ int StartBuildGMTree(MAZE *start_maze, GROOM *groom) {
 	/* setup some global stuff */
 	GMInitHashTable();
 	for (i=0; i<groom->n; i++) {
-		bits[i] = 
+		bits[i] =
 		   (PROP_STRICT|PROP_INSIDE|PROP_OPTIMAL|PROP_LOOSEST)
 		 <<(i*PROP_ESHIFT);
 	}
@@ -1262,7 +1262,7 @@ GMNODE *BuildGMTree(MAZE *maze, GROOM *groom, int depth, int allow_null)
 						   each square on its own */
 	int	goali, entri, number, n, prop, sat_prop;
 	BitString considered;   /* was this entrance already considered for
-				 * the current entrance */	
+				 * the current entrance */
 
 	SR(Debug(4,4,"Enter GMBuilt\n"));
 	if (IdaInfo->node_count>10000) {
@@ -1296,7 +1296,7 @@ GMNODE *BuildGMTree(MAZE *maze, GROOM *groom, int depth, int allow_null)
 	   }
 	   if (goali == maze->number_goals) {
 		/* Wow, this is when all reachable squares from this
-		 * entrance in the goal area are restricting reachability 
+		 * entrance in the goal area are restricting reachability
 		 * of any entrance, we have to generate all goal macros to
 		 * be save */
 		number = CreateAllGMacro(maze, groom, gmnode, depth,
@@ -1461,7 +1461,7 @@ void GMStoreHashTable(MAZE *maze, GMNODE *n)
 {
 	HASHKEY gmhashkey = maze->hashkey&GMHASHMASK;
 	if (   GMHashTable[gmhashkey].lock != 0
-	    && GMHashTable[gmhashkey].lock != maze->hashkey) 
+	    && GMHashTable[gmhashkey].lock != maze->hashkey)
 		IdaInfo->gmtt_cols++;
 	GMHashTable[gmhashkey].lock       = maze->hashkey;
 	GMHashTable[gmhashkey].gmnode     = n;
@@ -1518,7 +1518,7 @@ void PrintMazeValue(MAZE *maze, int index, int values[MAXGOALS])
 					values[maze->Phys[pos].goal]&0xffff);
 			}
 			else if (maze->Phys[pos].goal>=0) strcat(buff,"....");
-			else if (maze->groom_index[pos]>=0) 
+			else if (maze->groom_index[pos]>=0)
 				sprintf(&buff[strlen(buff)],"%4x",
 					maze->groom_index[pos]%0xffff);
 			else strcat(buff,"    ");
@@ -1566,7 +1566,7 @@ void PrintGoalMacro(MAZE *maze, GROOM *groom, int setpos, int entri,
 						before[goali],groom->n));
 			}
 			else if (maze->Phys[pos].goal>=0) strcat(buff,"....");
-			else if (maze->groom_index[pos]==groom->index) 
+			else if (maze->groom_index[pos]==groom->index)
 				sprintf(&buff[strlen(buff)],"%4i",
 					maze->groom_index[pos]%0xffff);
 			else strcat(buff,"    ");
@@ -1630,10 +1630,10 @@ void FindMacros(MAZE *maze)
 			if (maze->Phys[pos].min_dim==1) diff=YSIZE;
 			else diff=1;
 			last = FindEndTunnel(maze,pos,diff,&last_over);
-			if (last != 0) 
+			if (last != 0)
 				AddMacro(maze,pos,2,pos-diff,last_over,last);
 			last = FindEndTunnel(maze,pos,-diff,&last_over);
-			if (last != 0) 
+			if (last != 0)
 				AddMacro(maze,pos,2,pos+diff,last_over,last);
 		    } else if (!IsBitSetBS(maze->out,pos)) {
 			/* Get the two-way Tunnel macros */

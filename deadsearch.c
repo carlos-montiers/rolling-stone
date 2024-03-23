@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 MAZE *DeadMaze;
@@ -72,7 +72,7 @@ int  DeadMove(MAZE *maze, MOVE *last_move, int treedepth)
 
 	SR(Debug(4,0,"DeadMove #### Start search\n"));
 	for (;;) {
-		SR(Debug(4,0,"DeadMove Iteration, stones: %i\n", 
+		SR(Debug(4,0,"DeadMove Iteration, stones: %i\n",
 			number_stones));
 		DeadDeactivateStones(IdaInfo->IdaMaze,visible);
 		BitAndNotAndNotBS(IdaInfo->shadow_stones,
@@ -92,7 +92,7 @@ int  DeadMove(MAZE *maze, MOVE *last_move, int treedepth)
 			dl_pos_sc ++;
 			IdaInfo = old_idainfo;
 			SR(Debug(4,0,"DeadMove ## End search - DEAD (nodes:"));
-			SR(Debug(4,0," %li, stones: %i, result: %i)\n", 
+			SR(Debug(4,0," %li, stones: %i, result: %i)\n",
 				node_count, number_stones, result));
 			Options.mc_gm=old_gm;
 			return(1);
@@ -112,7 +112,7 @@ int  DeadMove(MAZE *maze, MOVE *last_move, int treedepth)
 				IdaInfo->IdaMaze->stones_done); */
 			BitAndNotEqBS(IdaInfo->IdaManSquares,
 				IdaInfo->IdaMaze->goal);
-			pos = FindClosestPosMan(maze, 
+			pos = FindClosestPosMan(maze,
 				IdaInfo->IdaManSquares, visible);
 			if (pos > 0) SetBitBS(visible,pos);
 			else {
@@ -138,7 +138,7 @@ END:
 	SR(Debug(4,0,"DeadMove ## End search - ALIVE (nodes: %li stones: %i)\n",
 		node_count,number_stones));
 	Options.mc_gm=old_gm;
-	return(0);      
+	return(0);
 }
 
 void DeadDeactivateStones(MAZE *maze, BitString visible)
@@ -173,7 +173,7 @@ int DeadMoveSuspected(MAZE *maze, MOVE *last_move)
 	diff = last_move->to - last_move->last_over;
 	if (diff==1 || diff==-1) odiff = YSIZE;
 	else odiff = 1;
-	
+
 	/* check all 5 forward and side directions for stones and/or
 	 * no_reach area */
 	Set0BS(test);
@@ -187,7 +187,7 @@ int DeadMoveSuspected(MAZE *maze, MOVE *last_move)
 	    ||LogAndBS(test,maze->no_reach)) {
 		/*if (WasTestedDead(maze->conflicts,maze->stone,
 				maze->reach,last_move->to))
-			return(0); 
+			return(0);
 		else */
 			return(1);
 	}
@@ -196,7 +196,7 @@ int DeadMoveSuspected(MAZE *maze, MOVE *last_move)
 
 }
 
-PHYSID FindClosestPosStone(MAZE *maze, BitString squares, 
+PHYSID FindClosestPosStone(MAZE *maze, BitString squares,
 		      		  BitString already_visible)
 /* Find the square (position) the in squares that has a stone on it
  * that is not already visible */
@@ -204,7 +204,7 @@ PHYSID FindClosestPosStone(MAZE *maze, BitString squares,
 	int    stonei;
 	DIST   dist = MAXDIST;
 	PHYSID pos  = 0,p;
-	
+
 	for (stonei=0; stonei<maze->number_stones; stonei++) {
 		p = maze->stones[stonei].loc;
 		if (  !IsBitSetBS(already_visible,p)
@@ -218,7 +218,7 @@ PHYSID FindClosestPosStone(MAZE *maze, BitString squares,
 	return(pos);
 }
 
-PHYSID FindClosestPosMan(MAZE *maze, BitString squares, 
+PHYSID FindClosestPosMan(MAZE *maze, BitString squares,
 		      		  BitString already_visible)
 /* Find the square (position) the in squares that has a stone on it
  * that is not already visible */
@@ -226,7 +226,7 @@ PHYSID FindClosestPosMan(MAZE *maze, BitString squares,
 	int    stonei;
 	DIST   dist = MAXDIST;
 	PHYSID pos  = 0,p;
-	
+
 	for (stonei=0; stonei<maze->number_stones; stonei++) {
 		p = maze->stones[stonei].loc;
 		if (  !IsBitSetBS(already_visible,p)
@@ -322,8 +322,8 @@ void DeadMiniConflict(int minimize)
 }
 
 int DeadStartIda()
-/* Sets up all data structures and repeatedly calls ida with increasing 
-   threshold to guarantee optimal solutions, returns 0 if solution found 
+/* Sets up all data structures and repeatedly calls ida with increasing
+   threshold to guarantee optimal solutions, returns 0 if solution found
    otherwise the increase of maze->h by Threshold, if this is
    ENDPATH there is no solution - deadlock */
 {
@@ -409,7 +409,7 @@ int DeadMoveOrdering(int depth, int number_moves)
 
 
 int DeadIda(int treedepth, int g) {
-/* the procedure that does the work at one node. it returns 
+/* the procedure that does the work at one node. it returns
 	X - the smallest h underneath this node */
 
 	IDAARRAY  *S;
@@ -447,7 +447,7 @@ int DeadIda(int treedepth, int g) {
 	   an iteration earlier! */
 	/* check for cutoff: is g+h > threshold => return(0) (fail) */
 	if (g+IdaInfo->IdaMaze->h>IdaInfo->Threshold) {
-		SR(Debug(5,treedepth,"Threshold cutoff (%i=%i+%i)\n", 
+		SR(Debug(5,treedepth,"Threshold cutoff (%i=%i+%i)\n",
 			g+IdaInfo->IdaMaze->h,g,IdaInfo->IdaMaze->h));
 		GTVAny(GTVNodeExit(treedepth,
 				   IdaInfo->IdaMaze->h,"Threshold_Cutoff"));
@@ -525,7 +525,7 @@ int DeadIda(int treedepth, int g) {
 	for (i=0; i<number_moves; i++) {
 		if (ISDUMMYMOVE(S->moves[i])) continue;
 		if (IdaInfo->IdaMaze->goal_sqto!=-1) {
-			SR(Debug(5,treedepth,"Goal Cut move\n")); 
+			SR(Debug(5,treedepth,"Goal Cut move\n"));
 			continue;
 		}
 		S->currentmove = S->moves[i];
@@ -536,11 +536,11 @@ int DeadIda(int treedepth, int g) {
 				SR(Debug(6,treedepth,
 					"DeadTree fd deadlock (%i-%i)\n",
 					S->currentmove.from,
-					S->currentmove.to)); 
+					S->currentmove.to));
 				continue;
 			}
 		}
-		SR(Debug(6,treedepth,"DeadMakeMove %s (%i of %i)\n", 
+		SR(Debug(6,treedepth,"DeadMakeMove %s (%i of %i)\n",
 			PrintMove(S->currentmove),i+1,number_moves));
 		if (!DeadMakeMove(IdaInfo->IdaMaze,&(S->currentmove),
 				  &(S->unmove),targetpen)){
@@ -611,7 +611,7 @@ int DeadMakeMove(MAZE *maze, MOVE *move, UNMOVE *ret, int targetpen)
 		maze->number_stones--;
 		if (maze->number_stones>ret->old_stoneid) {
 			/* relocate stone if necessary */
-			maze->stones[ret->old_stoneid] 
+			maze->stones[ret->old_stoneid]
 				= maze->stones[maze->number_stones];
 			maze->PHYSstone[maze->stones[ret->old_stoneid].loc]
 				= ret->old_stoneid;
@@ -645,7 +645,7 @@ int DeadUnMakeMove(MAZE *maze, UNMOVE *unmove, int targetpen)
 		/* recreate stone */
 		if (maze->number_stones>unmove->old_stoneid) {
 			/* relocate stone, if was before */
-			maze->stones[maze->number_stones] 
+			maze->stones[maze->number_stones]
 				= maze->stones[unmove->old_stoneid];
 			maze->PHYSstone[maze->stones[unmove->old_stoneid].loc]
 				= maze->number_stones;

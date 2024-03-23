@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -28,7 +28,7 @@ int  OppDir[8] = {2,3,0,1,6,7,4,5};
 int NextDir[8] = {1,2,3,0,5,6,7,4};
 int PrevDir[8] = {3,0,1,2,7,4,5,6};
 
-int GenerateMoves(MAZE *maze, MOVE *moves) 
+int GenerateMoves(MAZE *maze, MOVE *moves)
 {
 	PHYSID pos;
 	int i,dir;
@@ -55,8 +55,8 @@ int GenerateMoves(MAZE *maze, MOVE *moves)
 					number_moves++;
 /* JS: Check this does not exceed MAX_MOVES */
 				}
-			}		
-		}		
+			}
+		}
 	}
 END:
 	moves[number_moves].to = ENDPATH;
@@ -79,12 +79,12 @@ static int compare_negval(const void *m1, const void *m2) {
 	return(((MOVE*)m1)->value - ((MOVE*)m2)->value);
 }
 
-int NoMoveOrdering(int depth, int number_moves) 
+int NoMoveOrdering(int depth, int number_moves)
 {
 	return(number_moves);
 }
 
-int NewMoveOrdering(int depth, int number_moves) 
+int NewMoveOrdering(int depth, int number_moves)
 {
 	IDAARRAY *S;
 	MAZE  *maze;
@@ -135,11 +135,11 @@ int NewMoveOrdering(int depth, int number_moves)
 			}
 			m->value = dist;
 
-			if (m->macro_id != 4) diff = m->value - 
+			if (m->macro_id != 4) diff = m->value -
 			      StoneDistManpos(maze,m->to,goalpos,m->from);
 			else diff = m->value;
 			if (diff>0) {
-				if (lmove->to == m->from) 
+				if (lmove->to == m->from)
 					m->value -= ENDPATH;
 			} else {
 				m->value -= diff*100;
@@ -150,7 +150,7 @@ int NewMoveOrdering(int depth, int number_moves)
 	return(number_moves);
 }
 
-int ManDistMoveOrdering(int depth, int number_moves) 
+int ManDistMoveOrdering(int depth, int number_moves)
 {
 	if (number_moves>1) {
 		My_qsort(&(IdaInfo->IdaArray[depth].moves),
@@ -267,7 +267,7 @@ int UnMakeMove(MAZE *maze, UNMOVE *unmove, int targetpen)
 	CopyBS( maze->reach, unmove->save_reach );
 	CopyBS( maze->no_reach, unmove->save_no_reach );
 	CopyBS( maze->old_no_reach, unmove->save_old_no_reach);
-	
+
 	if (  ((unmove->macro_id==4) || (maze->goal_sqto==unmove->stoneto))
 	    &&(maze->h - unmove->move_dist == new_h    /* optimal move */)) {
 		/* This is either the start or a continuation of a goal move */
@@ -316,7 +316,7 @@ int DistToGoal(MAZE *maze, PHYSID start, PHYSID goal, PHYSID *last_over) {
 		fro = from[next_out];
                 pos = stack[next_out];
                 dis = dist[next_out++];
-                if (maze->PHYSstone[pos] >= 0) 
+                if (maze->PHYSstone[pos] >= 0)
 			continue;
 		if (pos==goal) {
 			*last_over = fro;
@@ -418,8 +418,8 @@ void GenAllSquares( PHYSID pos, PHYSID *from, BitString all_squares )
   }
 }
 
-void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal, 
-		 int *pushes, int *moves, 
+void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal,
+		 int *pushes, int *moves,
 		 BitString stone_squares, BitString man_squares)
 {
 
@@ -457,7 +457,7 @@ void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal,
   while (next_out < next_in) {
     fro = from[next_out];
     pos = stack[next_out++];
-    if (maze->PHYSstone[pos] >= 0) 
+    if (maze->PHYSstone[pos] >= 0)
       continue;
     if (s_visited[pos] ) continue;
     s_visited[pos] = 1;
@@ -496,8 +496,8 @@ void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal,
   SetBitBS(man_squares,fro);
 }
 
-void PushesMoves2(MAZE *maze, PHYSID start, PHYSID goal, 
-		 int *pushes, int *moves, 
+void PushesMoves2(MAZE *maze, PHYSID start, PHYSID goal,
+		 int *pushes, int *moves,
 		 BitString stone_squares, BitString man_squares)
 {
   static PHYSID stack[XSIZE*YSIZE];
@@ -597,7 +597,7 @@ int ValidSolution(MAZE *maze, MOVE *solution) {
 	}
 	Mprintf(0,"Moves: %i, Pushes: %i, Treedepth: %i\n",
 		number_moves,number_pushes,i);
-	if (maze->h!=0) 
+	if (maze->h!=0)
 		return(0);
 	else return(number_pushes);
 
@@ -623,7 +623,7 @@ int DiffToDir(int diff)
 		return(SOUTHWEST);
 	case +1-YSIZE:
 		return(NORTHWEST);
-	default: 
+	default:
 		return(NODIR);
 	}
 }

@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 void    PickUpEntrances(MAZE *maze, int gridx);
 int     SubMacro(MAZE *maze, MOVE *moves, int *move_number);
@@ -15,7 +15,7 @@ void    RemoveGRoom(MAZE *maze, int gridx);
 void    FindMacros(MAZE *maze);
 
 PHYSID  FindEndTunnel(MAZE *maze, PHYSID pos, int dir, PHYSID *last_over);
-void    AddMacro(MAZE *maze, PHYSID pos, int type, PHYSID from, 
+void    AddMacro(MAZE *maze, PHYSID pos, int type, PHYSID from,
 		PHYSID last_over, PHYSID to);
 
 int 	StartBuildGMTree(MAZE *start_maze, GROOM *groom);

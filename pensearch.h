@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 
 extern MAZE *PenMaze;
@@ -32,7 +32,7 @@ int  PenUnMakeMove(MAZE *maze, UNMOVE *unmove, int targetpen);
 int  PenLowerBound(MAZE *maze, int targetpen);
 int  PenMinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove, int targetpen);
 int  PenUpdateLowerBound(MAZE *maze, PHYSID pos, int targetpen);
-PHYSID FindFarthestPosStone(MAZE *maze, BitString squares, 
+PHYSID FindFarthestPosStone(MAZE *maze, BitString squares,
 		      		  BitString already_visible);
 
 void MarkReachPos(MAZE *maze, BitString reach, PHYSID manpos, int clear);

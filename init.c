@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -53,7 +53,7 @@ void InitMaze(MAZE *maze)  {
 	Set0BS(maze->no_reach);
 	Set0BS(maze->old_no_reach);
 	Set0BS(maze->stones_done);
-	
+
 	for (pos = 0; pos < XSIZE*YSIZE; pos++) {
 		maze->Phys[pos].tunnel    =  1;
 		maze->Phys[pos].min_dim   =  0;
@@ -90,7 +90,7 @@ void ResetMaze(MAZE *maze)  {
 	Set0BS(maze->wall);
 	Set0BS(maze->dead);
 	Set1BS(maze->out);
-	Set0BS(maze->stone);	
+	Set0BS(maze->stone);
 	Set0BS(maze->goal);
 	Set0BS(maze->reach);
 	Set0BS(maze->no_reach);
@@ -105,7 +105,7 @@ void ResetMaze(MAZE *maze)  {
 		maze->PHYSstone[pos]     = -1;
 		maze->Phys[pos].goal      = -1;
 		maze->groom_index[pos] = -2;
-		if (maze->macros[pos].type!=4) 
+		if (maze->macros[pos].type!=4)
 			My_free(maze->macros[pos].macros);
 		maze->macros[pos].type = 0;
 		maze->macros[pos].number_macros = 0;
@@ -142,7 +142,7 @@ void DelMaze(MAZE *maze) {
 	maze->number_goals   = 0;
 	maze->number_stones  = 0;
 	for (pos=0; pos<XSIZE*YSIZE; pos++) {
-		if (maze->macros[pos].type!=4) 
+		if (maze->macros[pos].type!=4)
 			My_free(maze->macros[pos].macros);
 		maze->macros[pos].macros = NULL;
 	}
@@ -202,7 +202,7 @@ MAZE *CopyMaze(MAZE *maze) {
 
 	MAZE *ret_maze;
 
-	ret_maze = 
+	ret_maze =
 		(MAZE *)My_malloc(sizeof(MAZE));
 	memcpy(ret_maze,maze,sizeof(MAZE));
 

@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -67,6 +67,6 @@ void TestX(MAZE *maze, PHYSID from, PHYSID to)
 	MakeMove(maze,&move,&unmove, ENDPATH);
 
 	r = DeadMove(maze,&move,1);
-	
+
 	Mprintf( 0, "Return value from DeadMove = %i\n", r);
 }

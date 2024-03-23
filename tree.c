@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,12 +7,12 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 #include <sys/stat.h>
 
-/* 
+/*
 ###########
 ###########
 ##.......##
@@ -64,7 +64,7 @@ DLSUP DlSup2[MAX_SQUARES] = {
 ##.N7@6E.##
 ##.......##
 ###########
-########### 
+###########
 */
 
 DLSUP DlSup1[MAX_SQUARES] = {
@@ -141,10 +141,10 @@ int DeadTree( MAZE *maze, PHYSID pos, int direction) {
 	SQUARE square;
 	TREE  *t;
 
-	
+
 	if (maze->Phys[pos].goal >= 0) return(0);
-	for (tree_id = 0; 
-	     tree_id < NumberTrees && tree_id < Options.dl_db; 
+	for (tree_id = 0;
+	     tree_id < NumberTrees && tree_id < Options.dl_db;
 	     tree_id++) {
  	   t = &AllTrees[tree_id];
 	   xofs = yofs = 0;
@@ -164,7 +164,7 @@ int DeadTree( MAZE *maze, PHYSID pos, int direction) {
 		 * test the mirror pattern to see if that finds a deadlock */
 
 		/* check for pattern overflow first */
-		if (p<0 || p>XSIZE*YSIZE) 
+		if (p<0 || p>XSIZE*YSIZE)
 			square = WallSquare;
 		else {
 			if (maze->Phys[p].goal >= 0) {
@@ -195,7 +195,7 @@ TEST_MIRROR:
 		/* test if goal is in the pattern, if yes, no deadlock */
 
 		/* check for pattern overflow first */
-		if (p<0 || p>XSIZE*YSIZE) 
+		if (p<0 || p>XSIZE*YSIZE)
 			square = WallSquare;
 		else {
 			if (maze->Phys[p].goal >= 0) {

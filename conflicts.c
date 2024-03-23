@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -253,7 +253,7 @@ void AddConflict(CONFLICTS *c,BitString conflict,BitString no_reach,int penalty)
 int  GetPriorPostPen(MAZE *maze, int penalty, int *prior, int *post)
 {
 	int i;
-	
+
 	for (i=0;
 	        i<maze->conflicts->number_penalties
 	     && maze->conflicts->pen[i].penalty != penalty;
@@ -266,7 +266,7 @@ int  GetPriorPostPen(MAZE *maze, int penalty, int *prior, int *post)
 
 	if ( i == maze->conflicts->number_penalties - 1 ) *post = -1;
 	else *post = maze->conflicts->pen[ i + 1 ].penalty;
-	
+
 	return( 1 );
 }
 
@@ -298,19 +298,19 @@ void PrintConflicts(MAZE *maze, CONFLICTS *c)
 	}
 	Mprintf( 0, "penalty: count; ");
 	for (peni=0; peni<MAX_PENHIST; peni+=2) {
-		if (c->penalty_hist[peni]>0) 
+		if (c->penalty_hist[peni]>0)
 			Mprintf( 0, "%d:%ld, ", peni, c->penalty_hist[peni]);
 	}
 	Mprintf( 0, "\ndepth: count; ");
 	for (peni=0; peni<MAX_DEPTH; peni++) {
-		if (c->penalty_depth[peni]>0) 
+		if (c->penalty_depth[peni]>0)
 			Mprintf( 0, "%d:%ld, ", peni, c->penalty_depth[peni]);
 	}
 	Mprintf( 0, "\n");
 	maze->manpos = old_manpos;
 }
 
-void AddTestedPen(CONFLICTS *c, BitString relevant, BitString stones, 
+void AddTestedPen(CONFLICTS *c, BitString relevant, BitString stones,
 				PHYSID manpos, PHYSID stonepos, int goodtested)
 {
 	TESTED *pen;
@@ -361,7 +361,7 @@ int WasTestedPen(CONFLICTS *c, BitString stones,
 	2) stone on same square AND
 	3) no stone is on relevant squares that was not before.
 Play with what are relevant squares (touched for a solution? close to the
-stones in the fianlpattern???) */	
+stones in the fianlpattern???) */
 /* return position+1 of pattern tested */
 /* 0 if was not searched before */
 
@@ -472,7 +472,7 @@ int BitNext(BitType bs)
     /* returns -1 for no bits left */
     /* does not find "smallest" bitfirst!!! */
 {
-/* 
+/*
     int i;
     char *a;
     a = (char*) &bs;
@@ -537,7 +537,7 @@ int Maximize(BitType open, BitType *used,
 		max_penalty = penalty;
 		*used = tmp_used | pattern;
 	    }
-	    
+
 	    BitUnSet(open,pattern);
 	    pattern = BitNext(open);
     }
@@ -712,7 +712,7 @@ ENDLOOP:
 			used >>= 1;
 		}
 	} else if (   Options.overestim != 0.0
-		   && IdaInfo == &MainIdaInfo ) { 
+		   && IdaInfo == &MainIdaInfo ) {
 	    /* only if we did not reach targetpen, try to overestimate */
 	    /* overestimation here works with giving the max  penalty to each
 	     * stone for each pattern it is involved in, the penalty is the

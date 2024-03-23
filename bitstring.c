@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 unsigned char BitNumber[256];
@@ -27,7 +27,7 @@ void InitBS() {
 	      BitFirst[i] = j;
 	      break;
       }
-   }                         
+   }
 }
 
 int  Is0BS(BitString a) {
@@ -153,7 +153,7 @@ void BitAndNotBS(BitString r, BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = a[i] & ~b[i];
 }
 
-void BitAndNotButOrBS(BitString r, BitString a, BitString b, BitString c) { 
+void BitAndNotButOrBS(BitString r, BitString a, BitString b, BitString c) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = a[i] & (~b[i] | c[i]);
 }
 
@@ -169,19 +169,19 @@ void BitAndBS(BitString r, BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = a[i] & b[i];
 }
 
-void BitNandBS(BitString r, BitString a, BitString b) { 
+void BitNandBS(BitString r, BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = ~(a[i] & b[i]);
 }
 
-void BitOrBS(BitString r, BitString a, BitString b) { 
+void BitOrBS(BitString r, BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = a[i] | b[i];
 }
 
-void BitOrAndEqBS(BitString a, BitString b, BitString c) { 
+void BitOrAndEqBS(BitString a, BitString b, BitString c) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] |= b[i] & c[i];
 }
 
-void BitNorBS(BitString r, BitString a, BitString b) { 
+void BitNorBS(BitString r, BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = ~(a[i] | b[i]);
 }
 
@@ -195,39 +195,39 @@ void BitAndEqBS(BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] &= b[i];
 }
 
-void BitNandEqBS(BitString a, BitString b) { 
+void BitNandEqBS(BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] = ~(a[i] & b[i]);
 }
 
-void BitOrEqBS(BitString a, BitString b) { 
+void BitOrEqBS(BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] |= b[i];
 }
 
-void BitNorEqBS(BitString a, BitString b) { 
+void BitNorEqBS(BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] = ~(a[i] | b[i]);
 }
 
-void BitAndNotEqBS(BitString a, BitString b) { 
+void BitAndNotEqBS(BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] &= ~b[i];
 }
 
-void BitAndNotButOrEqBS(BitString a, BitString b, BitString c) { 
+void BitAndNotButOrEqBS(BitString a, BitString b, BitString c) {
 	int i; for (i=0; i<NUMBERINTS; i++) a[i] &= (~b[i] | c[i]);
 }
 
 
-void BitNotAndNotBS(BitString r, BitString a, BitString b) { 
+void BitNotAndNotBS(BitString r, BitString a, BitString b) {
 	int i; for (i=0; i<NUMBERINTS; i++) r[i] = ~(a[i] | b[i]);
 }
 
 void BitNotAndNotAndNotBS(BitString r, BitString a, BitString b,
-			  BitString c) { 
+			  BitString c) {
 	int i;
 
 	for (i = 0; i < NUMBERINTS; i++) r[i] = ~( a[i] | b[i] | c[i] );
 }
 
-void BitAndNotAndNotBS(BitString r, BitString a, BitString b, BitString c) { 
+void BitAndNotAndNotBS(BitString r, BitString a, BitString b, BitString c) {
 	int i;
 
 	for (i = 0; i < NUMBERINTS; i++) r[i] = a[i] & ~b[i] & ~c[i];

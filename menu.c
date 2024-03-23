@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,12 +7,12 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 /*=============================================================================
 |
 | This file includes User Interface Functions for the DEADLOCK program.
-|  
+|
 =============================================================================*/
 #include <signal.h>
 #include <stdio.h>
@@ -22,7 +22,7 @@
 
 /*   Menu structures.
 */
-CMDMENU cmdMainMenu[] = { 
+CMDMENU cmdMainMenu[] = {
    { "S", CmdSolve,		"S nam|num kind      Solve Maze" },
    { "A", CmdAbort,		"A                   Set Abort Node Count" },
    { "T", CmdTimer,		"T sec [REAL|VIRT]   Set Abort time" },
@@ -37,14 +37,14 @@ CMDMENU cmdMainMenu[] = {
    { "Q", CmdQuit,		"Q                   Quit Program" },
    { NULL } };
 
- CMDMENU cmdShowMenu[] = { 
+ CMDMENU cmdShowMenu[] = {
    { "D", CmdShowMDist,		"D                   Hist of man-distances"},
    { "S", CmdShowSDist,		"S                   Hist of stone-distances"},
    { "X", CmdShowXDist,		"X                   Hist of X-distances"},
    { "C", CmdShowConfl,		"C                   Print Conflicts prev search"},
    { NULL } };
 
- CMDMENU cmdOptionsMenu[] = { 
+ CMDMENU cmdOptionsMenu[] = {
    { "E", CmdOptionEX,   "E             Examine all settings" },
    { "H", CmdOptionTT,   "H [on/off]    HashTable on/off" },
    { "D", CmdOptionDL,   "D [on/off]    deadlock det. movegen on/off" },
@@ -110,7 +110,7 @@ void
 |
 | Return:    None.
 |
-| Side eff.: SearchDepth can be updated. Also when playing a game the 
+| Side eff.: SearchDepth can be updated. Also when playing a game the
 |            chess related global structures are modified.
 |
 =============================================================================*/
@@ -124,7 +124,7 @@ MainMenu()
    int     no,i;
    MOVE    move;
    UNMOVE  unmove;
-	
+
    InitMaze(&Maze);
    param = NULL;
    for ( ;; ) {
@@ -149,18 +149,18 @@ MainMenu()
 			break;
 	case CmdAbort:
 			param = CmdParam(cmdstr,1);
-			if (param != NULL) 
+			if (param != NULL)
 				MainIdaInfo.AbortNodeCount = atol(param);
 			else MainIdaInfo.AbortNodeCount = -1;
 			break;
 	case CmdTimer:
 			param = CmdParam(cmdstr,1);
-			if (param != NULL) 
+			if (param != NULL)
 				MainIdaInfo.TimeOut = atoi(param);
 			param = CmdParam(cmdstr,2);
-			if (param != NULL && param[0]=='R') 
+			if (param != NULL && param[0]=='R')
 				MainIdaInfo.TimeOutType = REAL;
-			if (param != NULL && param[0]=='V') 
+			if (param != NULL && param[0]=='V')
 				MainIdaInfo.TimeOutType = VIRTUAL;
 			break;
 	case CmdTestAll:
@@ -190,7 +190,7 @@ MainMenu()
 				if (no<1) no = 1;
 			} else no = 1;
 		        for (i=90; i>0; i--) {
-				SimpleMakeName(name,&Cur_Maze_Number, i, 
+				SimpleMakeName(name,&Cur_Maze_Number, i,
 						CmdParam(cmdstr,3));
                 		if ( (fp = fopen(name,"r")) == NULL) {
 					MainIdaInfo.IdaMaze = &Maze;
@@ -206,12 +206,12 @@ MainMenu()
 			break;
 	case CmdOptions: OptionsMenu(); break;
 	case CmdShow:    ShowMenu(); break;
-	case CmdPosNr: 
+	case CmdPosNr:
 			param = CmdParam(cmdstr,1);
 			if (param != NULL) PosNr = atoi(param);
 			else PosNr = 0;
 			break;
-	case CmdMove: 
+	case CmdMove:
 			move.move_dist = 1;
 			move.value = 0;
 			move.from = atoi(CmdParam(cmdstr,1));
@@ -225,7 +225,7 @@ MainMenu()
 			   ParseMakeMoves(cmdstr);
 			}
 			break;
-	case CmdTestX: 
+	case CmdTestX:
 			break;
 	case CmdQuit:
    			DelMaze(&Maze);
@@ -325,7 +325,7 @@ void OptionsMenu()
 		}
 		else Options.scan_srch = !Options.scan_srch;
 		break;
-	case CmdOptionPL: 
+	case CmdOptionPL:
 		param = CmdParam(cmdstr,1);
 		if (param != NULL) MainIdaInfo.pattern_node_limit = atoi(param);
 		break;
@@ -338,7 +338,7 @@ void OptionsMenu()
 				Options.area_srch = NO;
 		}
 		else Options.area_srch = !Options.area_srch;
-		break;	
+		break;
 
 	case CmdOptionMM:
 		param = CmdParam(cmdstr,1);
@@ -396,7 +396,7 @@ void OptionsMenu()
         case CmdOptionPT:
 		param = CmdParam(cmdstr,1);
 		if ( param != NULL ) {
-			i = atoi(param);	
+			i = atoi(param);
 			Options.dl_db = min(7,max(0,i));
 		}
 		break;
@@ -475,7 +475,7 @@ void OptionsMenu()
 		param2 = CmdParam(cmdstr,2);
 		param3 = CmdParam(cmdstr,3);
 		SetLocalCut(atoi(param),atoi(param2),atoi(param3));
-		break;        
+		break;
        case CmdOptionLA:
 		param = CmdParam(cmdstr,1);
 		if (param != NULL) {
@@ -506,11 +506,11 @@ void OptionsMenu()
 	case CmdOptionMO:
 		param = CmdParam(cmdstr,1);
 		if (param != NULL) {
-			i = atoi(param);	
+			i = atoi(param);
 			switch (i) {
 			case 0: IdaInfo->MoveOrdering = NoMoveOrdering;
 				break;
-			case 1: 
+			case 1:
 			case 2:
 			case 3: IdaInfo->MoveOrdering = ManDistMoveOrdering;
 				break;
@@ -544,7 +544,7 @@ COMMAND
 |
 | Return:    The command type entered.  The command type is determined by
 |            the first word in the command string.
-| 
+|
 | Side eff.: None.
 |
 =============================================================================*/
@@ -560,12 +560,12 @@ GetCommand(char prompt[], CMDMENU cmdMenu[], char cmdstr[] )
 	return(CmdQuit);
    }
 
-   /* 
+   /*
       Make sure string is zero terminated and get rid of newline at end.
    */
    i = 0;
-   cmdstr[SZ_CMDSTR] = '\0';   
-   if ( strlen(cmdstr) ) 
+   cmdstr[SZ_CMDSTR] = '\0';
+   if ( strlen(cmdstr) )
       cmdstr[strlen(cmdstr)-1] ='\0';
 
    if ( cmdstr[0] == '\n' ) return ( CmdUnknown );
@@ -602,10 +602,10 @@ GetCommand(char prompt[], CMDMENU cmdMenu[], char cmdstr[] )
             return ( cmdMenu[i].cmd );
          i++;
       }
-   }   
+   }
 
-   /* 
-     Command entered is unknown, so display an error message. 
+   /*
+     Command entered is unknown, so display an error message.
    */
    Mprintf( 0, "Unknown command '%s'\n", cmdstr );
 
@@ -614,16 +614,16 @@ GetCommand(char prompt[], CMDMENU cmdMenu[], char cmdstr[] )
 
 
 
-char 
+char
 /*=============================================================================
 |
 | Descr.:    Returns a specified paramenter of a given command string.
 |
-| In:   cmdstr   The command string 
+| In:   cmdstr   The command string
 |       no       The number of the parameter we want to get.
 |
 | Return:    Pointer to paramenter number no in the command string
-| 
+|
 | Side eff.: None.
 |
 =============================================================================*/
@@ -687,7 +687,7 @@ READ_TO:
 		for (i=0; i<n_moves; i++) {
 		   if (  IdaInfo->IdaArray[depth].moves[i].from
 			  ==S->currentmove.from
-		       &&IdaInfo->IdaArray[depth].moves[i].to 
+		       &&IdaInfo->IdaArray[depth].moves[i].to
 			  ==S->currentmove.to  ) {
 			S->currentmove.man
 				= IdaInfo->IdaArray[depth].moves[i].man;

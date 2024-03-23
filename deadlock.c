@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -35,7 +35,7 @@ int Frozen(MAZE *maze, int dir_in, PHYSID pos)
     if (IsBitSetBS(stones,pos1) && Frozen(maze,dir,pos1)) ret = YES;
     else if (IsBitSetBS(stones,pos2) && Frozen(maze,dir,pos2)) ret = YES;
     UnsetBitBS(walls,pos);
-    
+
     return(ret);
 }
 
@@ -90,13 +90,13 @@ int DeadLockOld(MAZE *maze, MOVE move) {
 		if (   (  (IsBitSetBS(maze->out,move.to+sidediff))
 			||(maze->PHYSstone[move.to+sidediff]>=0))
 		    && (  (IsBitSetBS(maze->out,move.to+sidediff+frontdiff))
-			||(maze->PHYSstone[move.to+sidediff+frontdiff]>=0))) 
+			||(maze->PHYSstone[move.to+sidediff+frontdiff]>=0)))
 			return(1);
 		sidediff = -sidediff;
 		if (   (  (IsBitSetBS(maze->out,move.to+sidediff))
 			||(maze->PHYSstone[move.to+sidediff]>=0))
 		    && (  (IsBitSetBS(maze->out,move.to+sidediff+frontdiff))
-			||(maze->PHYSstone[move.to+sidediff+frontdiff]>=0))) 
+			||(maze->PHYSstone[move.to+sidediff+frontdiff]>=0)))
 			return(1);
 	}
 	return(0);
@@ -134,7 +134,7 @@ int DeadLock2(MAZE *maze, MOVE *move) {
 		}
 		/* deadlock */
 		return(1);
-	} 
+	}
 	return(0);
 }
 

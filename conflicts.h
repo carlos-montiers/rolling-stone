@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 int  VerifyConflict(CONFLICTS *c, BitString conflict, BitString reach, int pen);
 void InitConflicts(CONFLICTS *c);
@@ -26,7 +26,7 @@ int  GetPenalty(MAZE *maze, int targetpen);
 
 void PrintConflicts(MAZE *maze, CONFLICTS *c);
 
-void AddTestedPen(CONFLICTS *c, BitString relevant, BitString stones, 
+void AddTestedPen(CONFLICTS *c, BitString relevant, BitString stones,
 				PHYSID manpos, PHYSID stonepos, int goodtested);
 void AddTestedDead(CONFLICTS *c, BitString relevant, BitString stones,
 				PHYSID manpos, PHYSID stonepos);

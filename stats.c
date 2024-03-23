@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 #include <sys/resource.h>
@@ -33,7 +33,7 @@ void InitNodeCount()
 }
 
 void IncNodeCount(int dth) {
-	
+
 	FILE *fp;
 
 	total_node_count++;
@@ -95,25 +95,25 @@ void print_stats(int pri) {
         int i,ttl;
 	time_t t;
 	struct rusage r_usage;
-	
+
 	Debug(pri,0, "tt: %c, dl_mg: %c, dl2_mg: %c\n",
 		Options.tt==1?'Y':'N', Options.dl_mg==1?'Y':'N',
 		Options.dl2_mg==1?'Y':'N');
 	Debug(pri,0,"area_srch: %c dl_srch: %c pen_srch: %c\n",
-		Options.area_srch==1?'Y':'N', Options.dl_srch==1?'Y':'N', 
+		Options.area_srch==1?'Y':'N', Options.dl_srch==1?'Y':'N',
 		Options.pen_srch==1?'Y':'N');
 	Debug(pri,0,"scan_srch: %c\n", Options.scan_srch==1?'Y':'N');
 	Debug(pri,0, "node limit: %i, minimize: %c\n",
 		MainIdaInfo.pattern_node_limit, Options.minimize==1?'Y':'N');
 	Debug(pri,0,"st_testd: %c, dl_db: %i, cut_goal: %c\n",
-		Options.st_testd==1?'Y':'N', Options.dl_db, 
+		Options.st_testd==1?'Y':'N', Options.dl_db,
 		Options.cut_goal==1?'Y':'N');
 	Debug(pri,0,"xdist: %c, auto: %c, local: %c(%i,%i,%i)\n",
 		Options.xdist==1?'Y':'N',
 		Options.autolocal==1?'Y':'N', Options.local==1?'Y':'N',
 		Options.local_k,Options.local_m,Options.local_d);
 	Debug(pri,0, "lb_mp: %c, lb_cf: %c, lb_dd: %c(%d/%d), mc_tu: %c, mc_gm: %c\n",
-		Options.lb_mp==1?'Y':'N', Options.lb_cf==1?'Y':'N', 
+		Options.lb_mp==1?'Y':'N', Options.lb_cf==1?'Y':'N',
 		Options.lb_dd==1?'Y':'N',
 		MainIdaInfo.dcache_hits,
 		MainIdaInfo.IdaMaze==0?0:MainIdaInfo.IdaMaze->number_d_cache,
@@ -139,7 +139,7 @@ void print_stats(int pri) {
                 Mprintf( 0, " %li", IdaInfo->nodes_depth[i]);
                 ttl += IdaInfo->nodes_depth[i];
                 i++;
-        }       
+        }
 	if (IdaInfo->PrintPriority >= pri) {
 		Mprintf( 0, " \n");
 

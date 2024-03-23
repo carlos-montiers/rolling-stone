@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -37,7 +37,7 @@ void PrintMaze(MAZE *maze) {
 				strcat(buff," ");
 				num_empty++;
 			}
-			else if (maze->groom_index[x*YSIZE+y]>=0) 
+			else if (maze->groom_index[x*YSIZE+y]>=0)
 				sprintf(&buff[strlen(buff)],"%i",
 					maze->groom_index[x*YSIZE+y]%10);
 			else strcat(buff," ");
@@ -80,7 +80,7 @@ void ReadMaze(FILE *fp, MAZE *maze ) {
 			UnsetBitBS(maze->S[NORTH],pos);
 		}
 		switch (sq) {
-		case '\n': 
+		case '\n':
 			if (x==0) goto END_INPUT;
 			if (x>XSIZE) {
 				My_exit(1, "Maze too large for XSIZE, recompile with larger XSIZE!\n");
@@ -92,7 +92,7 @@ void ReadMaze(FILE *fp, MAZE *maze ) {
 		case '#':
 			SetBitBS(maze->wall,pos);
 
-			if (IsBitSetBS(maze->M[NORTH],pos)) {	
+			if (IsBitSetBS(maze->M[NORTH],pos)) {
 				UnsetBitBS(maze->M[SOUTH],pos+1);
 				UnsetBitBS(maze->S[SOUTH],pos+1);
 				UnsetBitBS(maze->S[NORTH],pos+1);
