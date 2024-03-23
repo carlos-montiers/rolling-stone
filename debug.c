@@ -21,7 +21,7 @@ void Mprintf( int priority, char *format, ... )
    	vsprintf( msg, format, argptr );
    	va_end( argptr );
 
-        printf( msg );		/* This is the only printf in the entire
+        printf( "%s", msg );	/* This is the only printf in the entire
 				 * program!!!!!! */
         fflush(stdout);
    }
