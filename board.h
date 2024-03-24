@@ -65,7 +65,7 @@ extern int PATTERNRATIO;
 #define MAX_SQUARES     25
 #define MAX_LOCATIONS   MAXSTONES
 #define XY2ID(x,y)	(x*YSIZE+y)
-#define ENDPATH		2047
+#define ENDPATH		4095
 #define MAXDIST         255
 #define XSIZE		20
 #define YSIZE		16 /* JS */
