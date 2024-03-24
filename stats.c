@@ -58,19 +58,9 @@ void InitNodeCount()
 }
 
 void IncNodeCount(int dth) {
-
-	FILE *fp;
-
 	total_node_count++;
 	IdaInfo->node_count++;
 	IdaInfo->nodes_depth[dth]++;
-	if (total_node_count%100000==0) {
-		fp = fopen("nodecount","w");
-		if (fp != NULL) {
-			fprintf(fp,"%" PRIi32,total_node_count);
-			fclose(fp);
-		}
-	}
 }
 
 void init_opts() {
