@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <inttypes.h>
 
 #define CONFLICT_INC 1000	/* lumb increment of tested array */
 #define CONFLICT_RESET 5000	/* number of conflicts after which we set to 0*/
@@ -68,8 +69,8 @@ extern int PATTERNRATIO;
 #define MAXDIST         255
 #define XSIZE		20
 #define YSIZE		16 /* JS */
-#define BASETYPE   	long
-#define PRINTBASETYPE(a) Mprintf( 0, "%08lx",a);
+#define BASETYPE   	uint32_t
+#define PRINTBASETYPE(a) Mprintf( 0, "%08" PRIx32,a);
 
 #define NUMBERBITS 	XSIZE*YSIZE
 #define BYTEPERINT 	sizeof(BASETYPE)
@@ -100,11 +101,11 @@ extern int PATTERNRATIO;
 #define SOUTHWEST 6
 #define NORTHWEST 7
 
-typedef unsigned short USHORT;
-typedef          short PHYSID;
-/* typedef 	 short DIST;  JS */
-typedef unsigned char  DIST;
-typedef unsigned long long HASHKEY;
+typedef uint16_t USHORT;
+typedef  int16_t PHYSID;
+/* typedef  int16_t DIST;  JS */
+typedef uint8_t  DIST;
+typedef uint64_t HASHKEY;
 
 typedef DIST STNDIST[4][XSIZE*YSIZE][XSIZE*YSIZE];	/* dir, from, to */
 typedef DIST MANDIST[XSIZE*YSIZE][XSIZE*YSIZE];
@@ -240,11 +241,11 @@ typedef struct UGLY_GMENTRY {
 typedef struct {
 	BitString conflict;
 	BitString no_reach;
-	/* long      n_matched; JS */
-	long      n_used;
-	long      t_created;
-	/* long      t_matched; JS */
-	long      t_used;
+	/* int32_t   n_matched; JS */
+	int32_t   n_used;
+	int32_t   t_created;
+	/* int32_t   t_matched; JS */
+	int32_t   t_used;
         PHYSID onestone;
 } CFLT;
 
@@ -287,8 +288,8 @@ typedef struct {
 	int	  array_size_pentested;
 	TESTED   *pentested;
 
-	long	  penalty_hist[MAX_PENHIST];
-	long	  penalty_depth[MAX_DEPTH];
+	int32_t   penalty_hist[MAX_PENHIST];
+	int32_t   penalty_depth[MAX_DEPTH];
 } CONFLICTS;
 
 typedef struct {
@@ -385,7 +386,7 @@ typedef struct {
 	int        Threshold;
 	int        ThresholdInc;
 	IDAARRAY   IdaArray[MAX_DEPTH];
-	long       AbortNodeCount;
+	int32_t    AbortNodeCount;
 	int        ForwDepthLimit;	/* primarily used for   */
 	int        base_indent;
 	int	   MiniFlag;		/* set to YES in PenMiniConflict */
@@ -404,18 +405,18 @@ typedef struct {
 	int	     pattern_node_limit;
 
 	/* stats stuff */
-	long	   node_count;	/* number nodes search during this ida */
+	int32_t    node_count;	/* number nodes search during this ida */
 				/* total_node_count is only reset when a
 				 * normal search is setup, therefore
 				 * contains ALL nodes searched (real) */
-	long       nodes_depth[MAX_DEPTH];
+	int32_t    nodes_depth[MAX_DEPTH];
 
-	long       tt_hits;
-	long       tt_cols;
-	long       tt_reqs;
-	long       gmtt_hits;
-	long       gmtt_cols;
-	long       gmtt_reqs;
+	int32_t    tt_hits;
+	int32_t    tt_cols;
+	int32_t    tt_reqs;
+	int32_t    gmtt_hits;
+	int32_t    gmtt_cols;
+	int32_t    gmtt_reqs;
 	int        dcache_hits;
 
 	int 	   PrintPriority;
@@ -453,9 +454,9 @@ typedef struct {
 
 extern MOVE DummyMove;
 extern int  PP;
-extern long area_pos_nc, area_neg_nc;	/* node counts for pos/neg searches */
-extern int  area_pos_sc, area_neg_sc;	/* search count for pos/neg */
-extern long dl_pos_nc, dl_neg_nc;	/* node counts for pos/neg searches */
-extern int  dl_pos_sc, dl_neg_sc;	/* search count for pos/neg */
-extern long pen_pos_nc, pen_neg_nc;	/* node counts for pos/neg searches */
-extern int  pen_pos_sc, pen_neg_sc;	/* search count for pos/neg */
+extern int32_t area_pos_nc, area_neg_nc;	/* node counts for pos/neg searches */
+extern int  area_pos_sc, area_neg_sc;		/* search count for pos/neg */
+extern int32_t dl_pos_nc, dl_neg_nc;		/* node counts for pos/neg searches */
+extern int  dl_pos_sc, dl_neg_sc;		/* search count for pos/neg */
+extern int32_t pen_pos_nc, pen_neg_nc;		/* node counts for pos/neg searches */
+extern int  pen_pos_sc, pen_neg_sc;		/* search count for pos/neg */

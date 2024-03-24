@@ -45,7 +45,7 @@ void PrintMaze(MAZE *maze) {
 		Mprintf( 0, "%s\n",buff);
 	}
 	Mprintf( 0, "%s\n",buff);
-	Mprintf( 0, "manpos: %i h: %i pen: %i search nodes: %li patterns: %d total nodes: %li\n",
+	Mprintf( 0, "manpos: %i h: %i pen: %i search nodes: %" PRIi32 " patterns: %d total nodes: %" PRIi32 "\n",
 		 maze->manpos,maze->h,maze->pen,
 		 IdaInfo->node_count,maze->conflicts->number_patterns,
 		 total_node_count );

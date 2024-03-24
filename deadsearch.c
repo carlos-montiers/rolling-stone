@@ -43,7 +43,7 @@ int  DeadMove(MAZE *maze, MOVE *last_move, int treedepth)
 	BitString	visible,relevant;
 	PHYSID		pos;
 	IDA		idainfo,*old_idainfo;
-	long		node_count;
+	int32_t 	node_count;
 	int		result;
 	int		number_stones;
 	unsigned short	old_gm;
@@ -92,7 +92,7 @@ int  DeadMove(MAZE *maze, MOVE *last_move, int treedepth)
 			dl_pos_sc ++;
 			IdaInfo = old_idainfo;
 			SR(Debug(4,0,"DeadMove ## End search - DEAD (nodes:"));
-			SR(Debug(4,0," %li, stones: %i, result: %i)\n",
+			SR(Debug(4,0," %" PRIi32 ", stones: %i, result: %i)\n",
 				node_count, number_stones, result));
 			Options.mc_gm=old_gm;
 			return(1);
@@ -135,7 +135,7 @@ END:
 	dl_neg_nc += IdaInfo->node_count;
 	dl_neg_sc ++;
 	IdaInfo = old_idainfo;
-	SR(Debug(4,0,"DeadMove ## End search - ALIVE (nodes: %li stones: %i)\n",
+	SR(Debug(4,0,"DeadMove ## End search - ALIVE (nodes: %" PRIi32 " stones: %i)\n",
 		node_count,number_stones));
 	Options.mc_gm=old_gm;
 	return(0);
@@ -248,7 +248,7 @@ void DeadMiniConflict(int minimize)
 	int        r,result;
 	unsigned short old_gm;
 	IDA	   idainfo, *old_idainfo;
-	long       node_count;
+	int32_t    node_count;
 	PHYSID     pos;
 	SAVEMAZE   savemaze;
 	BitString  already, visible;
@@ -423,7 +423,7 @@ int DeadIda(int treedepth, int g) {
 	SR(int old_h = IdaInfo->IdaMaze->h- IdaInfo->IdaMaze->pen);
 /*PrintMaze(IdaInfo->IdaMaze);*/
 
-        SR(Debug(5,treedepth,"starting ida (h=%i) (%s) %li %llx\n",
+        SR(Debug(5,treedepth,"starting ida (h=%i) (%s) %" PRIi32 " %" PRIx64 "\n",
 		IdaInfo->IdaMaze->h,
           	treedepth==0?"a1a1"
 		      :PrintMove(IdaInfo->IdaArray[treedepth-1].currentmove),

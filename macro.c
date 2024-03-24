@@ -1224,7 +1224,7 @@ int StartBuildGMTree(MAZE *start_maze, GROOM *groom) {
 	IdaInfo->node_count = 0;
 	start_maze->gmtrees[groom->index] = BuildGMTree(maze,groom,0,0);
 	if (start_maze->gmtrees[groom->index] == NULL) {
-		Debug(0,0,"%s MACRO, nodes: %li n: %i -> restart:\n",
+		Debug(0,0,"%s MACRO, nodes: %" PRIi32 " n: %i -> restart:\n",
 			(start_maze->gmtrees[groom->index] != NULL)?"YES":"NO",
 			IdaInfo->node_count,groom->n);
 		GMInitHashTable();
@@ -1232,7 +1232,7 @@ int StartBuildGMTree(MAZE *start_maze, GROOM *groom) {
 		start_maze->gmtrees[groom->index] =
 			BuildGMTree(maze,groom,0,1);
 	}
-	Debug(0,0,"%s MACRO, nodes: %li n: %i\n",
+	Debug(0,0,"%s MACRO, nodes: %" PRIi32 " n: %i\n",
 		(start_maze->gmtrees[groom->index] != NULL)?"YES":"NO",
 		IdaInfo->node_count,groom->n);
 
@@ -1526,7 +1526,7 @@ void PrintMazeValue(MAZE *maze, int index, int values[MAXGOALS])
 		Mprintf( 0, "%s\n",buff);
 	}
 	Mprintf( 0, "%s\n",buff);
-	Mprintf( 0, "manpos: %i h: %i pen: %i search nodes: %li patterns: %d total nodes: %li\n",
+	Mprintf( 0, "manpos: %i h: %i pen: %i search nodes: %" PRIi32 " patterns: %d total nodes: %" PRIi32 "\n",
 		 maze->manpos,maze->h,maze->pen,
 		 IdaInfo->node_count,maze->conflicts->number_patterns,
 		 total_node_count );
