@@ -115,7 +115,7 @@ void LoadTree( int id, char *filename) {
 	struct stat buf;
 
 
-	if ((fp = fopen(filename,"r")) != NULL) {
+	if ((fp = fopen(filename,"rb")) != NULL) {
 		stat(filename, &buf);
 		t->CurrentLength = buf.st_size/sizeof(DLENTRY);
 		t->Array = (DLENTRY*)My_realloc(t->Array,
