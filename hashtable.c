@@ -474,6 +474,6 @@ void InitRandom()
 {
   int i;
 
-  for( i = 0; i < 1972; i++ )
+  for( i = 0; i < 1792; i++ )
     ((unsigned long *)RandomTable)[ i ] = RandomTable32[ i ];
 }
