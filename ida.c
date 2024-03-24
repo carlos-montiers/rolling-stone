@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -22,8 +22,8 @@
 IDA *IdaInfo;
 
 int StartIda(int nomacro) {
-/* Sets up all data structures and repeatedly calls ida with increasing 
-   threshold to guarantee optimal solutions, returns 0 if solution found 
+/* Sets up all data structures and repeatedly calls ida with increasing
+   threshold to guarantee optimal solutions, returns 0 if solution found
    otherwise the smallest heuristic value seen at any leaf node if this is
    ENDPATH there is no solution - deadlock */
 
@@ -72,7 +72,7 @@ START_IDA:
 		result = Ida(0,0); /**********************************/
 		GTVAny(GTVClose());
 		print_stats(2);
-		if (result>=ENDPATH) 
+		if (result>=ENDPATH)
 			IdaInfo->Threshold = ENDPATH + IdaInfo->ThresholdInc;
 	}
 	IdaInfo->Threshold -= IdaInfo->ThresholdInc;
@@ -130,12 +130,12 @@ void PrintSolution()
 	while (IdaInfo->IdaArray[i].solution.from != 0 && maze->h>0) {
 		solution[i]=IdaInfo->IdaArray[i].solution;
 		if (lastmove.to==IdaInfo->IdaArray[i].solution.from) {
-			Debug(0,-1,"%s", 
+			Debug(0,-1,"%s",
 				HumanMove(IdaInfo->IdaArray[i].solution)+2);
 		} else {
-			Debug(0,-1," %s", 
+			Debug(0,-1," %s",
 				HumanMove(IdaInfo->IdaArray[i].solution));
-		}	
+		}
 		lastmove = IdaInfo->IdaArray[i].solution;
 		MakeMove(maze,&(IdaInfo->IdaArray[i].solution),
 			 &unmove,ENDPATH);
@@ -191,7 +191,7 @@ int Ida(int treedepth, int g) {
 	SR(int here_nodes = total_node_count;)
 
         SR(Debug(4,treedepth,"starting ida (h=%i) (%s) %d\n",
-		IdaInfo->IdaMaze->h, 
+		IdaInfo->IdaMaze->h,
 		treedepth==0?"a1a1":PrintMove(IdaInfo->IdaArray[treedepth-1].currentmove),IdaInfo->node_count));
 	S = &(IdaInfo->IdaArray[treedepth]);
 
@@ -214,7 +214,7 @@ int Ida(int treedepth, int g) {
 	   an iteration earlier! */
 	/* check for cutoff: is g+h > threshold => return(0) (fail) */
 	if (g+IdaInfo->IdaMaze->h>IdaInfo->Threshold) {
-		SR(Debug(4,treedepth,"Threshold cutoff (%i=%i+%i)\n", 
+		SR(Debug(4,treedepth,"Threshold cutoff (%i=%i+%i)\n",
 			g+IdaInfo->IdaMaze->h,g,IdaInfo->IdaMaze->h));
 		GTVAny(GTVNodeExit(treedepth,IdaInfo->IdaMaze->h,
 			"Threshold_Cutoff"));
@@ -261,7 +261,7 @@ int Ida(int treedepth, int g) {
 		    return(IdaInfo->IdaMaze->h);
 		}
 	    }
-	    if (   Options.pen_srch == 1 
+	    if (   Options.pen_srch == 1
 		&& entry->pensearched == 0
 		&& last_move->macro_id != 4
 		&& PenMoveSuspected(IdaInfo->IdaMaze,last_move)==0) {
@@ -311,12 +311,12 @@ int Ida(int treedepth, int g) {
 		S->currentmove = S->moves[i];
 		S->currentindex = i;
 
-		if (   Options.cut_goal==1 
+		if (   Options.cut_goal==1
 		    && S->moves[i].macro_id!=4
 		    && IdaInfo->IdaMaze->goal_sqto != -1 ) {
 		    /*&& IdaInfo->IdaMaze->goal_sqto != -1
 		    && IdaInfo->IdaMaze->goal_sqto != S->moves[i].from ) {*/
-			SR(Debug(4,treedepth,"Goal Cut move\n")); 
+			SR(Debug(4,treedepth,"Goal Cut move\n"));
 			continue;
 		}
 		if (   Options.local == 1
@@ -333,11 +333,11 @@ int Ida(int treedepth, int g) {
 				SR(Debug(6,treedepth,
 					"DeadTree fd deadlock (%i-%i)\n",
 					S->currentmove.from,
-					S->currentmove.to)); 
+					S->currentmove.to));
 				continue;
 			}
 		}
-		SR(Debug(6,treedepth,"MakeMove %s (%i of %i)\n", 
+		SR(Debug(6,treedepth,"MakeMove %s (%i of %i)\n",
 			PrintMove(S->currentmove),i+1,S->number_moves));
 		if( !MakeMove( IdaInfo->IdaMaze, &S->currentmove,
 			       &S->unmove, targetpen ) ) {
@@ -360,7 +360,7 @@ int Ida(int treedepth, int g) {
 			goto END_IDA;
 		}
 
-		if (IdaInfo->IdaMaze->h + g > IdaInfo->Threshold) 
+		if (IdaInfo->IdaMaze->h + g > IdaInfo->Threshold)
 			goto END_IDA;
 
 		/* if a deadlock score came back, maybe we are already in a
@@ -391,9 +391,9 @@ int AbortSearch() {
 
 	/* stop any search if its limit is reached */
 	if (   MainIdaInfo.TimedOut == YES) return(1);
-	if (   MainIdaInfo.AbortNodeCount >= 0 
+	if (   MainIdaInfo.AbortNodeCount >= 0
 	    && total_node_count >= MainIdaInfo.AbortNodeCount) return(1);
-	if (   IdaInfo->AbortNodeCount >= 0 
+	if (   IdaInfo->AbortNodeCount >= 0
 	    && IdaInfo->node_count >= IdaInfo->AbortNodeCount) return(1);
 
 	return(0);

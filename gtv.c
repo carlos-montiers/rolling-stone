@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -66,7 +66,7 @@ void GTVNodeExit( int d, int score, char *move )
      Tree[d-1].branching++;
   }
 
-  fprintf( fpTree, 
+  fprintf( fpTree,
            "%6ld %6ld %2d %s %6d %c %c %08lx%08lx %6d %6d %s\n",
            Tree[d].node_no,
            (d) ? Tree[d-1].node_no : 0,
@@ -109,7 +109,7 @@ char *GTVFen(MAZE *maze) {
 	char this;
 
         num_empty=0;
-        buff[0]='\0'; 
+        buff[0]='\0';
         for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
                 num_empty = 0;
                 for (x = 0; x<XSIZE; x++) {
@@ -147,7 +147,7 @@ char *GTVFen(MAZE *maze) {
 					strcat(buff,e_buff);
 				}
 			}
-                } 
+                }
 		if (num_empty<XSIZE) strcat(buff,"/");
         }
 	buff[strlen(buff)-1] = '\0';

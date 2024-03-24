@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 MAZE *PenMaze;
@@ -32,7 +32,7 @@ int PenIsGoalNode(int g)
 void MarkReachPos(MAZE *maze, BitString reach, PHYSID manpos, int clear)
 {
   /* recursive function to mark the fields that are reachable */
-	
+
   static PHYSID stack[ENDPATH];
   PHYSID pos;
   int top;
@@ -99,7 +99,7 @@ int WhichStones(MAZE *maze, BitString fs, BitString no_reach, int clear)
       for (s=0; s<maze->number_stones; s++) {
 	pos = maze->stones[s].loc;
 	if (IsBitSetBS(fs,pos)) continue;
-	if (IsBitSetBS(maze->goal,pos)) continue; 
+	if (IsBitSetBS(maze->goal,pos)) continue;
 	    /* &&!IsBitSetBS(maze->stones_done,pos)) continue; */
 	bool_no_reach = bool_fs = bool_else = NO;
 	for (dir=0; dir<=NORTHWEST; dir++) {
@@ -256,7 +256,7 @@ int ScanSearch(MAZE *maze)
 	PHYSID     pos;
 	MOVE	   fake_move;
 	HASHENTRY *entry;
-	
+
 	if (Options.scan_srch==NO) return(0);
 	old_h = IdaInfo->IdaMaze->h;
 	entry = GetHashTable(maze);
@@ -337,13 +337,13 @@ int  PenMove(MAZE *maze, HASHENTRY *entry, MOVE *last_move, int treedepth,
 		/* Turn off all goal stones */
 		BitAndNotEqBS(IdaInfo->IdaStoneSquares,IdaInfo->IdaMaze->goal);
 		/* if a stone is blocked, try that block, else man blocks */
-		pos = FindClosestPosStone(maze, 
+		pos = FindClosestPosStone(maze,
 			IdaInfo->IdaStoneSquares, visible);
 		if (pos > 0) SetBitBS(visible,pos);
 		else {
 			BitAndNotEqBS(IdaInfo->IdaManSquares,
 				IdaInfo->IdaMaze->goal);
-			pos = FindClosestPosMan(maze, 
+			pos = FindClosestPosMan(maze,
 				IdaInfo->IdaManSquares, visible);
 			if (pos > 0) SetBitBS(visible,pos);
 			else {
@@ -439,7 +439,7 @@ int PenMoveSuspected(MAZE *maze, MOVE *last_move)
 	diff = last_move->to - last_move->last_over;
 	if (diff==1 || diff==-1) odiff = YSIZE;
 	else odiff = 1;
-	
+
 	/* check all 5 forward and side directions for stones and/or
 	 * no_reach area */
 	Set0BS(test);
@@ -505,7 +505,7 @@ int PenMiniConflict(int penalty, int minimize)
 		IdaInfo->PrintPriority  = PENPATTERNSEARCHPP;
 		IdaInfo->HashTable      = HashTablePen;
 		IdaInfo->MiniFlag	= YES;
-		old_gm        = Options.mc_gm; 
+		old_gm        = Options.mc_gm;
 		Options.mc_gm = 0;
 		node_count    = 0;
 		Set0BS(already);
@@ -553,7 +553,7 @@ int PenMiniConflict(int penalty, int minimize)
 	return(penalty);
 }
 
-PHYSID FindFarthestPosStone(MAZE *maze, BitString squares, 
+PHYSID FindFarthestPosStone(MAZE *maze, BitString squares,
 		      		  BitString already_visible)
 /* Find the square (position) the in squares that has a stone on it
  * that is not already visible */
@@ -561,7 +561,7 @@ PHYSID FindFarthestPosStone(MAZE *maze, BitString squares,
   int    stonei;
   DIST   dist = 0;
   PHYSID pos, p;
-	
+
   pos = 0;
   for( stonei = 0; stonei < maze->number_stones; stonei++ ) {
     p = maze->stones[ stonei ].loc;
@@ -577,8 +577,8 @@ PHYSID FindFarthestPosStone(MAZE *maze, BitString squares,
 }
 
 int PenStartIda() {
-/* Sets up all data structures and repeatedly calls ida with increasing 
-   threshold to guarantee optimal solutions, returns 0 if solution found 
+/* Sets up all data structures and repeatedly calls ida with increasing
+   threshold to guarantee optimal solutions, returns 0 if solution found
    otherwise the smallest heuristic value seen at any leaf node if this is
    ENDPATH there is no solution - deadlock */
 /* !!! returns the TOTAL penalty for this pattern of stones!!! */
@@ -592,7 +592,7 @@ int PenStartIda() {
 	Set0BS(IdaInfo->IdaManSquares);
 	Set0BS(IdaInfo->IdaStoneSquares);
 	IdaInfo->Threshold = IdaInfo->IdaMaze->h;
-	
+
 	IdaInfo->CurrentSolutionDepth = ENDPATH;
 	BitNotAndNotBS(IdaInfo->no_reach,IdaInfo->IdaMaze->reach,
 					 IdaInfo->IdaMaze->out);
@@ -680,14 +680,14 @@ int PenMoveOrdering(int depth, int number_moves)
 
 
 int PenIda(int treedepth, int g) {
-/* the procedure that does the work at one node. it returns 
+/* the procedure that does the work at one node. it returns
 	X - the smallest h underneath this node */
 
 	IDAARRAY  *S;
 	HASHENTRY *entry;
 	int 	   min_h,number_moves,result,i;
 	int	   targetpen;
-	int        dir; 
+	int        dir;
 	SR(int here_nodes = total_node_count);
 	SR(int old_h = IdaInfo->IdaMaze->h- IdaInfo->IdaMaze->pen);
 
@@ -714,7 +714,7 @@ int PenIda(int treedepth, int g) {
 	   an iteration earlier! */
 	/* check for cutoff: is g+h > threshold => return(0) (fail) */
 	if (g+IdaInfo->IdaMaze->h>IdaInfo->Threshold) {
-		SR(Debug(5,treedepth,"Threshold cutoff (%i=%i+%i)\n", 
+		SR(Debug(5,treedepth,"Threshold cutoff (%i=%i+%i)\n",
 			g+IdaInfo->IdaMaze->h,g,IdaInfo->IdaMaze->h));
 		GTVAny(GTVNodeExit(treedepth,
 				   IdaInfo->IdaMaze->h,"Threshold_Cutoff"));
@@ -792,7 +792,7 @@ int PenIda(int treedepth, int g) {
 	for (i=0; i<number_moves; i++) {
 		if (ISDUMMYMOVE(S->moves[i])) continue;
 		if (treedepth>0 && IdaInfo->IdaMaze->goal_sqto!=-1) {
-			SR(Debug(5,treedepth,"Goal Cut move\n")); 
+			SR(Debug(5,treedepth,"Goal Cut move\n"));
 			continue;
 		}
 		S->currentmove = S->moves[i];
@@ -803,11 +803,11 @@ int PenIda(int treedepth, int g) {
 				SR(Debug(6,treedepth,
 					"DeadTree fd deadlock (%i-%i)\n",
 					S->currentmove.from,
-					S->currentmove.to)); 
+					S->currentmove.to));
 				continue;
 			}
 		}
-		SR(Debug(6,treedepth,"PenMakeMove %s (%i of %i)\n", 
+		SR(Debug(6,treedepth,"PenMakeMove %s (%i of %i)\n",
 			PrintMove(S->currentmove),i+1,number_moves));
 		if (!PenMakeMove(IdaInfo->IdaMaze,&(S->currentmove),
 				 &(S->unmove), targetpen)){
@@ -874,7 +874,7 @@ int PenMakeMove(MAZE *maze, MOVE *move, UNMOVE *ret, int targetpen)
 		maze->number_stones--;
 		if (maze->number_stones>ret->old_stoneid) {
 			/* relocate stone if necessary */
-			maze->stones[ret->old_stoneid] 
+			maze->stones[ret->old_stoneid]
 				= maze->stones[maze->number_stones];
 			maze->PHYSstone[maze->stones[ret->old_stoneid].loc]
 				= ret->old_stoneid;
@@ -912,7 +912,7 @@ int PenUnMakeMove(MAZE *maze, UNMOVE *unmove, int targetpen)
 		/* recreate stone */
 		if (maze->number_stones>unmove->old_stoneid) {
 			/* relocate stone, if was before */
-			maze->stones[maze->number_stones] 
+			maze->stones[maze->number_stones]
 				= maze->stones[unmove->old_stoneid];
 			maze->PHYSstone[maze->stones[unmove->old_stoneid].loc]
 				= maze->number_stones;
@@ -935,7 +935,7 @@ int PenUnMakeMove(MAZE *maze, UNMOVE *unmove, int targetpen)
 		PenLowerBound(maze, targetpen);
 	}
 	IdaInfo->closest_confl = unmove->old_closest_confl;
-	
+
 	if (  ((unmove->old_stoneid != -1)||(maze->goal_sqto==unmove->stoneto))
 	    &&(maze->h - unmove->move_dist == new_h    /* optimal move */)) {
 		/* This is either the start or a continuation of a goal move */

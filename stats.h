@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,10 +7,10 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 typedef struct {
-	unsigned short tt:1;		/* HashTable */	
+	unsigned short tt:1;		/* HashTable */
 	unsigned short dl_mg:1;		/* use DeadLock det. in moveGen */
 	unsigned short dl2_mg:1;	/* use DeadLock2 in moveGen */
 	unsigned short dl_srch:1;	/* use DeadMove search */

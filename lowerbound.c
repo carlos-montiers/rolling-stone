@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,13 +7,13 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
 /**********************************************************************
  *
- *	This is a better lower bound estimator (well, routines that 
+ *	This is a better lower bound estimator (well, routines that
  *	implements it). It uses minimum flow, maximum matching to solve
  *	which stone goes to which goal without conflicts. If no matching
  *	exists - deadlock!
@@ -52,7 +52,7 @@ int BetterLowerBound(MAZE *maze)
 				if (taken[(int)goali] == NO) {
 					maze->lbtable[(int)goali].stoneidx  = stonei;
 					maze->lbtable[(int)stonei].goalidx  = goali;
-					maze->lbtable[(int)stonei].distance = 
+					maze->lbtable[(int)stonei].distance =
 					    StoneDist(maze,
 						maze->stones[(int)stonei].loc,
 						maze->goals[(int)goali].loc);
@@ -71,7 +71,7 @@ int BetterLowerBound(MAZE *maze)
 
 int MinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove, int targetpen)
 /*********************************************************************
-   if moveto == 0 then we need to force a full lb calculation, otherwise 
+   if moveto == 0 then we need to force a full lb calculation, otherwise
    go for optimizations using the fact that only one stone was moved.
 *********************************************************************/
 {
@@ -110,7 +110,7 @@ int MinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove, int targetpen)
 	    if (  IsBitSetBS(maze->stones_done,maze->stones[stonei].loc)
 		&&IsBitSetBS(maze->goal,maze->stones[stonei].loc))
 		    stone_done = YES;
-	    else 
+	    else
 		    stone_done = NO;
 	    disti  = maze->lbtable[(int)stonei].distance;
 
@@ -136,7 +136,7 @@ int MinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove, int targetpen)
 		/* cost after swap */
 		distj = StoneDist(maze,maze->stones[stonei].loc,
 				  maze->goals[goalj].loc);
-		cost_swap 
+		cost_swap
 		     = StoneDist(maze, maze->stones[stonej].loc,
 				 maze->goals[goali].loc) + distj;
 		if (   stone_done
@@ -177,11 +177,11 @@ int MinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove, int targetpen)
 	    maze->lbtable[(int)stonei].goalidx = goalj;
 	    maze->lbtable[(int)stonej].goalidx = goali;
 	    disti = maze->lbtable[(int)stonei].distance;
-	    maze->lbtable[(int)stonei].distance = 
+	    maze->lbtable[(int)stonei].distance =
 		StoneDist(maze,maze->stones[stonei].loc,
 			       maze->goals[goalj].loc);
 	    distj = maze->lbtable[(int)stonej].distance;
-	    maze->lbtable[(int)stonej].distance = 
+	    maze->lbtable[(int)stonej].distance =
 		StoneDist(maze,maze->stones[stonej].loc,maze->goals[goali].loc);
 	    stack[next_in++]=stonej;
 	    stack[next_in++]=stonei;
@@ -218,7 +218,7 @@ int PlainLowerBound(MAZE *maze)
 	for (i=0; i<maze->number_stones; i++) {
 		maze->lbtable[(int)i].stoneidx = i;
 		maze->lbtable[(int)i].goalidx  = i;
-		maze->lbtable[(int)i].distance = 
+		maze->lbtable[(int)i].distance =
 			GetShortestDist(maze,maze->goals[i].loc,maze->stones[i].loc);
 		maze->h += maze->lbtable[(int)i].distance;
 	}
@@ -230,7 +230,7 @@ int PlainLowerBound(MAZE *maze)
 int PlainMinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove)
 {
 /*********************************************************************
-   if moveto == 0 then we need to force a full lb calculation, otherwise 
+   if moveto == 0 then we need to force a full lb calculation, otherwise
    go for optimizations using the fact that only one stone was moved.
 *********************************************************************/
 	int i,cost,cost_swap, min_h, next_in, next_out, heur_diff, dist_diff;
@@ -284,7 +284,7 @@ int PlainMinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove)
 		/* cost after swap */
 		distj = GetShortestDist(maze,maze->goals[goalj].loc,
                               maze->stones[stonei].loc);
-		cost_swap 
+		cost_swap
 		     = GetShortestDist(maze,maze->goals[goali].loc,
                               maze->stones[stonej].loc) + distj;
 		if (heur_diff > (cost_swap - cost)) {
@@ -315,11 +315,11 @@ int PlainMinMatch(MAZE *maze, PHYSID moveto, UNMOVE *unmove)
 	    maze->lbtable[(int)stonei].goalidx = goalj;
 	    maze->lbtable[(int)stonej].goalidx = goali;
 	    disti = maze->lbtable[(int)stonei].distance;
-	    maze->lbtable[(int)stonei].distance = 
+	    maze->lbtable[(int)stonei].distance =
 		GetShortestDist(maze,maze->goals[goalj].loc,
 			maze->stones[stonei].loc);
 	    distj = maze->lbtable[(int)stonej].distance;
-	    maze->lbtable[(int)stonej].distance = 
+	    maze->lbtable[(int)stonej].distance =
 		GetShortestDist(maze,maze->goals[goali].loc,
 			maze->stones[stonej].loc);
 	    stack[next_in++]=stonej;

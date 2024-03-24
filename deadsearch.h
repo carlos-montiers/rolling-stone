@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 extern MAZE *DeadMaze;
 extern MAZE *DInsertMaze;
@@ -15,9 +15,9 @@ extern MAZE *DInsertMaze;
 int  DeadMoveOrdering(int depth, int number_moves);
 void DeadDeactivateStones(MAZE *maze, BitString visible);
 int  DeadMoveSuspected(MAZE *maze, MOVE *last_move);
-PHYSID FindClosestPosMan(MAZE *maze, BitString squares, 
+PHYSID FindClosestPosMan(MAZE *maze, BitString squares,
 		      BitString already_visible);
-PHYSID FindClosestPosStone(MAZE *maze, BitString squares, 
+PHYSID FindClosestPosStone(MAZE *maze, BitString squares,
 		      BitString already_visible);
 void DeadMiniConflict(int minimize);
 

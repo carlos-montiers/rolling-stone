@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -24,7 +24,7 @@ void InitHashTables() {
 void GGStoreHashTable(HASHKEY hashkey)
 {
 	HASHENTRY *entry = &(IdaInfo->HashTable[hashkey&HASHMASK]);
-	
+
 	entry->lock = hashkey;
 }
 

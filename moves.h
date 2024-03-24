@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #define MANTO(maze,to) \
 	maze->manpos = to
@@ -20,7 +20,7 @@
 	UnsetBitBS(maze->stone,from); \
 	SetBitBS(maze->stone,to); \
 	}
-	  
+
 extern int DirToDiff[8];
 extern int  OppDir[8];
 extern int NextDir[8];
@@ -32,11 +32,11 @@ int  UnMakeMove(MAZE *maze, UNMOVE *unmove, int targetpen);
 int  DistToGoal(MAZE *maze, PHYSID start, PHYSID goal, PHYSID *last_over);
 void Moves(MAZE *maze, PHYSID *from, signed char *reach);
 void GenAllSquares( PHYSID pos, PHYSID *from, BitString all_squares );
-void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal, 
-		 int *pushes, int *moves, 
+void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal,
+		 int *pushes, int *moves,
 		 BitString stone_squares, BitString man_squares);
-void PushesMoves2(MAZE *maze, PHYSID start, PHYSID goal, 
-		 int *pushes, int *moves, 
+void PushesMoves2(MAZE *maze, PHYSID start, PHYSID goal,
+		 int *pushes, int *moves,
 		 BitString stone_squares, BitString man_squares);
 int  ValidSolution(MAZE *maze, MOVE *solution);
 int DiffToDir(int diff);

@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright (C) 1999 by Andreas Junghanns.
 **
 ** Permission to use, copy, modify, and distribute this software and its
@@ -7,7 +7,7 @@
 ** copyright notice and this permission notice appear in supporting
 ** documentation.  This software is provided "as is" without express or
 ** implied warranty.
-*/ 
+*/
 
 #include "board.h"
 
@@ -209,8 +209,8 @@ void DistHist(MAZE *maze)
 	PHYSID    from,to;
 	HISTOGRAM h,hg;
 
-	InitHist(&h);	
-	InitHist(&hg);	
+	InitHist(&h);
+	InitHist(&hg);
 	for (from = 0; from < XSIZE*YSIZE; from++) {
 		if (IsBitSetBS(maze->out,from)) continue;
 		if (IsBitSetBS(maze->dead,from)) continue;
@@ -224,7 +224,7 @@ void DistHist(MAZE *maze)
 				IncCounter(&hg,ManDist(maze,from,to));
 		}
 	}
-	PrintHist2(&h,&hg);	
+	PrintHist2(&h,&hg);
 }
 
 void SDistHist(MAZE *maze)
@@ -233,8 +233,8 @@ void SDistHist(MAZE *maze)
 	PHYSID    from,to;
 	HISTOGRAM h,hg;
 
-	InitHist(&h);	
-	InitHist(&hg);	
+	InitHist(&h);
+	InitHist(&hg);
 	for (from = 0; from < XSIZE*YSIZE; from++) {
 		if (IsBitSetBS(maze->out,from)) continue;
 		if (IsBitSetBS(maze->dead,from)) continue;
@@ -250,19 +250,19 @@ void SDistHist(MAZE *maze)
 			       IncCounter(&hg,GetOptDist(maze,from,to,NODIR));
 		}
 	}
-	PrintHist2(&h,&hg);	
+	PrintHist2(&h,&hg);
 }
 
 void XDistHist(MAZE *maze, int *all, int *scew)
 /* Count Histogram for Xdists and print it out */
-/* if all or scew are not NULL return the respective averages and only print 
+/* if all or scew are not NULL return the respective averages and only print
  * histogram if either is NULL */
 {
 	PHYSID    from,to;
 	HISTOGRAM h,hg, sqto, sqfrom;
 
-	InitHist(&h);	
-	InitHist(&hg);	
+	InitHist(&h);
+	InitHist(&hg);
 	InitHist(&sqto);
 	InitHist(&sqfrom);
 	for (from = 0; from < XSIZE*YSIZE; from++) {
@@ -284,10 +284,10 @@ void XDistHist(MAZE *maze, int *all, int *scew)
 	}
 	if ( all != NULL)  *all = (int) (GetAvgHist(&h)*0.5) + 1;
 	if (scew != NULL) *scew = (int) GetAvgHist(&hg) + 1;
-	if (scew == NULL || all == NULL) PrintHist2(&h,&hg);	
+	if (scew == NULL || all == NULL) PrintHist2(&h,&hg);
 }
 
-void SetManDistances(MAZE *maze) 
+void SetManDistances(MAZE *maze)
 /* set dists with the distances for the man, given the current stones_done */
 {
 	int dir;
@@ -390,7 +390,7 @@ void GetNewDistances(MAZE *maze, UNMOVE *ret)
 
 	/* if too many already, just return here */
 	if (maze->number_d_cache>=100) return;
-		
+
 	/* Check cache, empty if s_distances==NULL */
 	if ((c = InDCache(maze,maze->stones_done))->s_distances==NULL) {
 		/* not there, recalculate */
@@ -453,12 +453,12 @@ int GetManDir(MAZE *maze, PHYSID pos, PHYSID manpos)
 	return(dir);
 }
 
-DIST GetShortestDist(MAZE *maze, PHYSID goal, PHYSID start) 
+DIST GetShortestDist(MAZE *maze, PHYSID goal, PHYSID start)
 /* this is not critical, just for plain lower bound */
 {
 	DIST   min_w,w;
 	int    dir;
-	
+
 	min_w = MAXDIST;
 	for (dir = EAST; dir <= WEST; dir++) {
 		w = StoneDistDir(maze,start,goal,dir);
@@ -467,10 +467,10 @@ DIST GetShortestDist(MAZE *maze, PHYSID goal, PHYSID start)
 	return(min_w);
 }
 
-DIST GetOptDist(MAZE *maze, PHYSID start, PHYSID goal, int dir) 
+DIST GetOptDist(MAZE *maze, PHYSID start, PHYSID goal, int dir)
 {
 	DIST w;
-	
+
 	if (dir!=NODIR) {
 	   	return(StoneDistDir(maze,start,goal,dir));
 	} else {
@@ -500,7 +500,7 @@ int GetScew(MAZE *maze, PHYSID from, PHYSID via)
 	for (goali=0; goali<maze->number_goals; goali++) {
 		scew = GetOptDist(maze,from,maze->goals[goali].loc,NODIR);
 		if (scew >= ENDPATH) continue;
-		
+
 		detour = GetOptDist(maze,from,via,NODIR)
 	       		+ GetOptDist(maze,via,maze->goals[goali].loc,NODIR);
 		/* there is no path using via */
