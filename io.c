@@ -201,7 +201,7 @@ END_INPUT:
 
 char *PrintMove(MOVE move) {
 
-	static char buff[20];
+	static char buff[32];
 
 	sprintf(buff,"(%02i:)%02i-%02i",move.man,move.from,move.to);
 	return(buff);

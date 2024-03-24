@@ -105,7 +105,7 @@ void GTVEval()
 char *GTVFen(MAZE *maze) {
         int x,y,num_empty;
         static char buff[XSIZE*YSIZE*2];
-	char e_buff[5];
+	char e_buff[16];
 	char this;
 
         num_empty=0;
