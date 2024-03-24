@@ -58,7 +58,7 @@ void Debug( int level, int indent, char *format, ... )
       	xxx2[indent] = '\0';
       	Mprintf( level, ". %3d %s ", indent, xxx2);
       }
-      Mprintf( level, msg );
+      Mprintf( level, "%s", msg );
    }
 }
 
