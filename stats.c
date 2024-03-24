@@ -30,11 +30,31 @@ OPTIONS Options;
 int32_t total_node_count, mini_node_count, scan_node_count;
 int32_t pattern_counter[256];
 
+int64_t start_time;			/* in microseconds */
+
+int64_t GetUSec()
+{
+#ifdef _WIN32
+	FILETIME creationtime, exittime, kerneltime, usertime;
+	GetProcessTimes(GetCurrentProcess(), &creationtime, &exittime, &kerneltime, &usertime);
+	ULARGE_INTEGER uli;
+	uli.LowPart = usertime.dwLowDateTime;
+	uli.HighPart = usertime.dwHighDateTime;
+	return uli.QuadPart / 10;
+#else
+	struct rusage r_usage;
+	getrusage(RUSAGE_SELF,&r_usage);
+	return (int64_t)r_usage.ru_utime.tv_sec * 1000000 + r_usage.ru_utime.tv_usec;
+#endif
+}
+
 void InitNodeCount()
 {
 	total_node_count = mini_node_count = scan_node_count = 0;
 	MainIdaInfo.node_count = 0;
 	IdaInfo->node_count = 0;
+
+	start_time = GetUSec();
 }
 
 void IncNodeCount(int dth) {
@@ -99,18 +119,8 @@ void init_stats() {
 void print_stats(int pri) {
         int i,ttl;
 	time_t t;
-#ifdef _WIN32
-	FILETIME creationtime, exittime, kerneltime, usertime;
-	ULARGE_INTEGER uli;
-	struct {
-		struct {
-			int tv_sec;
-			int tv_usec;
-		} ru_utime;
-	} r_usage;
-#else
-	struct rusage r_usage;
-#endif
+	int64_t usec;
+	int seconds, useconds;
 
 	Debug(pri,0, "tt: %c, dl_mg: %c, dl2_mg: %c\n",
 		Options.tt==1?'Y':'N', Options.dl_mg==1?'Y':'N',
@@ -159,27 +169,20 @@ void print_stats(int pri) {
 	if (IdaInfo->PrintPriority >= pri) {
 		Mprintf( 0, " \n");
 
-#ifdef _WIN32
-		GetProcessTimes(GetCurrentProcess(), &creationtime, &exittime, &kerneltime, &usertime);
-		uli.LowPart = usertime.dwLowDateTime;
-		uli.HighPart = usertime.dwHighDateTime;
-
-		long long microseconds = uli.QuadPart / 10LL;
-		long long seconds = microseconds / 1000000LL;
-		long long remainingMicroseconds = microseconds % 1000000LL;
-
-		r_usage.ru_utime.tv_sec = seconds;
-		r_usage.ru_utime.tv_usec = remainingMicroseconds;
-#else
-		getrusage(RUSAGE_SELF,&r_usage);
-#endif
-		t = r_usage.ru_utime.tv_sec;
-		if (r_usage.ru_utime.tv_usec>500000) t++;
+		usec = GetUSec() - start_time;
+		seconds = usec / 1000000;
+		useconds = usec % 1000000;
+		t = seconds;
+		if (useconds>500000) t++;
 		if (t==0) t=1;
-	} else t=1;
+	} else {
+		seconds = 1;
+		useconds = 0;
+		t=1;
+	}
 
 	Debug(pri,0,"run: sec: %li, usec: %li, t: %li\n",
-			r_usage.ru_utime.tv_sec,r_usage.ru_utime.tv_usec,t);
+			seconds,useconds,t);
 	Debug(pri,0,"Nodes per Second: %8.0f (%" PRId32 " sec.)\n",
 			(float)total_node_count/t,t);
 	Debug(pri,0,"AREA POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
