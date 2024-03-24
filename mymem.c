@@ -297,7 +297,7 @@ void My_exit(int code, char *format, ... )
    	vsprintf( msg, format, argptr );
    	va_end( argptr );
 
-        printf( msg );	/* print error message on std out */
+        printf( "%s", msg ); /* print error message on std out */
         fflush(stdout);
 	exit(code);
 }
