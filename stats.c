@@ -175,32 +175,32 @@ void print_stats(int pri) {
 			seconds,useconds,t);
 	Debug(pri,0,"Nodes per Second: %8.0f (%" PRId32 " sec.)\n",
 			(float)total_node_count/t,t);
-	Debug(pri,0,"AREA POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %4i\n",
+	Debug(pri,0,"AREA POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  area_pos_sc,
 		  (int)(100*area_pos_sc)/
 		    (area_pos_sc+area_neg_sc+(area_pos_sc+area_neg_sc==0?1:0)),
 		  area_pos_nc,(area_pos_sc==0)?0:(int)area_pos_nc/area_pos_sc);
-	Debug(pri,0,"AREA NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %4i\n",
+	Debug(pri,0,"AREA NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  area_neg_sc,
 		  (int)(100*area_neg_sc)/
 		    (area_pos_sc+area_neg_sc+(area_pos_sc+area_neg_sc==0?1:0)),
 		  area_neg_nc,(area_neg_sc==0)?0:(int)area_neg_nc/area_neg_sc);
-	Debug(pri,0,"DL   POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %4i\n",
+	Debug(pri,0,"DL   POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  dl_pos_sc,
 		  (int)(100*dl_pos_sc)/
 		       (dl_pos_sc+dl_neg_sc+(dl_pos_sc+dl_neg_sc==0?1:0)),
 		  dl_pos_nc,(dl_pos_sc==0)?0:(int)dl_pos_nc/dl_pos_sc);
-	Debug(pri,0,"DL   NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %4i\n",
+	Debug(pri,0,"DL   NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  dl_neg_sc,	    
 		  (int)(100*dl_neg_sc)/
 		       (dl_pos_sc+dl_neg_sc+(dl_pos_sc+dl_neg_sc==0?1:0)),
 		  dl_neg_nc,(dl_neg_sc==0)?0:(int)dl_neg_nc/dl_neg_sc);
-	Debug(pri,0,"PEN  POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %4i\n",
+	Debug(pri,0,"PEN  POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  pen_pos_sc,
 		  (int)(100*pen_pos_sc)/
 		       (pen_pos_sc+pen_neg_sc+(pen_pos_sc+pen_neg_sc==0?1:0)),
 		  pen_pos_nc,(pen_pos_sc==0)?0:(int)pen_pos_nc/pen_pos_sc);
-	Debug(pri,0,"PEN  NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %4i\n",
+	Debug(pri,0,"PEN  NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  pen_neg_sc,
 		  (int)(100*pen_neg_sc)/
 		       (pen_pos_sc+pen_neg_sc+(pen_pos_sc+pen_neg_sc==0?1:0)),
