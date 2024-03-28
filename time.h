@@ -9,5 +9,5 @@
 ** implied warranty.
 */
 
-void SetTimer();
+void Set_Timer();
 

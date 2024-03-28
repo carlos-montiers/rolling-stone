@@ -10,7 +10,13 @@
 */
 
 #include "board.h"
+#include <stdint.h>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#else
 #include <sys/resource.h>
+#endif
 
 MOVE DummyMove = {ENDPATH,ENDPATH,ENDPATH,ENDPATH};
 long area_pos_nc=0, area_neg_nc=0;	/* node counts for pos/neg searches */
@@ -29,9 +35,18 @@ int64_t start_time;			/* in microseconds */
 
 int64_t GetUSec()
 {
+#ifdef _WIN32
+	FILETIME creationtime, exittime, kerneltime, usertime;
+	GetProcessTimes(GetCurrentProcess(), &creationtime, &exittime, &kerneltime, &usertime);
+	ULARGE_INTEGER uli;
+	uli.LowPart = usertime.dwLowDateTime;
+	uli.HighPart = usertime.dwHighDateTime;
+	return uli.QuadPart / 10;
+#else
 	struct rusage r_usage;
 	getrusage(RUSAGE_SELF,&r_usage);
 	return (int64_t)r_usage.ru_utime.tv_sec * 1000000 + r_usage.ru_utime.tv_usec;
+#endif
 }
 
 void InitNodeCount()

@@ -10,7 +10,12 @@
 */
 
 #include "board.h"
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#else
 #include <sys/time.h>
+#endif
 
 /* this code was generously made available by Diego Novillo
  * and Peter van Beek */
@@ -19,7 +24,11 @@
  *  Signal handler for when timer expires.
  */
 static void
+#ifdef _WIN32
+CALLBACK expire(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+#else
 expire()
+#endif
 {
         MainIdaInfo.TimedOut = YES;
 	Mprintf(0,"\nTimeOut!!\n");
@@ -30,16 +39,22 @@ expire()
  *  The timer counts in virtual time (CPU time) or real time, depending
  *  on ``type''.
  */
-void SetTimer()
+void Set_Timer()
 {
+#ifndef _WIN32
         struct itimerval value;
 	int    time_limit;
 	int    type;
+#endif
 
 	/* set alarm only, if time limit was set */
 	if (MainIdaInfo.TimeOut<=0) return;
 
         MainIdaInfo.TimedOut = NO;
+
+#ifdef _WIN32
+	SetTimer(NULL, 0, MainIdaInfo.TimeOut * 1000, expire);
+#else
 	time_limit = MainIdaInfo.TimeOut;
 	type = MainIdaInfo.TimeOutType;
 
@@ -78,5 +93,6 @@ void SetTimer()
                 signal( SIGVTALRM, expire );
                 setitimer( ITIMER_VIRTUAL, &value, (struct itimerval *) NULL );
         }
+#endif
 }
 
