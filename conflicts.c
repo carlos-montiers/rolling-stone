@@ -31,8 +31,8 @@ void InitConflicts(CONFLICTS *c)
 	c->array_size_pentested  = 0;
 	c->pentested		 = NULL;
 
-	memset(c->penalty_hist,0,sizeof(long)*MAX_PENHIST);
-	memset(c->penalty_depth,0,sizeof(long)*MAX_DEPTH);
+	memset(c->penalty_hist,0,sizeof(int32_t)*MAX_PENHIST);
+	memset(c->penalty_depth,0,sizeof(int32_t)*MAX_DEPTH);
 }
 
 void DelConflicts(CONFLICTS *c)
@@ -182,7 +182,7 @@ void RemoveWorst( CONFLICTS *c )
 /* Find worst pattern, least used, and remove it */
 {
   int   peni, coni, w_peni, w_coni;
-  long  worst_t_used;
+  int32_t worst_t_used;
   w_peni = 0;
   w_coni = 0;
   worst_t_used = total_node_count;
@@ -299,12 +299,12 @@ void PrintConflicts(MAZE *maze, CONFLICTS *c)
 	Mprintf( 0, "penalty: count; ");
 	for (peni=0; peni<MAX_PENHIST; peni+=2) {
 		if (c->penalty_hist[peni]>0)
-			Mprintf( 0, "%d:%ld, ", peni, c->penalty_hist[peni]);
+			Mprintf( 0, "%d:%" PRId32 ", ", peni, c->penalty_hist[peni]);
 	}
 	Mprintf( 0, "\ndepth: count; ");
 	for (peni=0; peni<MAX_DEPTH; peni++) {
 		if (c->penalty_depth[peni]>0)
-			Mprintf( 0, "%d:%ld, ", peni, c->penalty_depth[peni]);
+			Mprintf( 0, "%d:%" PRId32 ", ", peni, c->penalty_depth[peni]);
 	}
 	Mprintf( 0, "\n");
 	maze->manpos = old_manpos;
@@ -399,7 +399,7 @@ int WasTestedDead(CONFLICTS *c, BitString stones,
 void PrintConflict( CONFLICTS *c, int peni, int coni )
 {
 	Mprintf( 0, "Pattern %d, pen: %d\n", coni, c->pen[peni].penalty);
-	Mprintf( 0, "n_used: %ld, t_created: %ld, t_used: %ld\n",
+	Mprintf( 0, "n_used: %" PRId32 ", t_created: %" PRId32 ", t_used: %" PRId32 "\n",
 		c->pen[peni].cflts[coni].n_used,
 		c->pen[peni].cflts[coni].t_created,
 		c->pen[peni].cflts[coni].t_used);
@@ -457,7 +457,7 @@ END_GETPEN:
 		penalty,count));
 }
 
-#define BitType unsigned long
+#define BitType uint32_t
 #define BitSize (sizeof(BitType)*8)
 #define BitSet(bs,bitnumber)   		((bs)  |=  (((BitType)1)<<bitnumber))
 #define BitSet0(bs)	      		((bs)   =  0)
@@ -483,7 +483,7 @@ int BitNext(BitType bs)
     }
     return(-1);
 */
-    unsigned long x;
+    uint32_t x;
 
     if( (x = (bs & 0x000000ff)) != 0 )
 	    return( BitFirst[ x >> 0 ] + 0 );

@@ -93,7 +93,7 @@ typedef struct
   } stack_node;
 
 /* The next 4 #defines implement a very fast in-line stack abstraction. */
-#define STACK_SIZE	(8 * sizeof(unsigned long int))
+#define STACK_SIZE	(8 * sizeof(uint32_t))
 #define PUSH(low, high)	((void) ((top->lo = (low)), (top->hi = (high)), ++top))
 #define	POP(low, high)	((void) (--top, (low = top->lo), (high = top->hi)))
 #define	STACK_NOT_EMPTY	(stack < top)

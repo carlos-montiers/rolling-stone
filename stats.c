@@ -19,17 +19,17 @@
 #endif
 
 MOVE DummyMove = {ENDPATH,ENDPATH,ENDPATH,ENDPATH};
-long area_pos_nc=0, area_neg_nc=0;	/* node counts for pos/neg searches */
+int32_t area_pos_nc=0, area_neg_nc=0;	/* node counts for pos/neg searches */
 int  area_pos_sc=0, area_neg_sc=0;	/* search count for pos/neg */
-long dl_pos_nc=0, dl_neg_nc=0;	/* node counts for pos/neg searches */
-int  dl_pos_sc=0, dl_neg_sc=0;	/* search count for pos/neg */
-long pen_pos_nc=0, pen_neg_nc=0;	/* node counts for pos/neg searches */
+int32_t dl_pos_nc=0, dl_neg_nc=0;	/* node counts for pos/neg searches */
+int  dl_pos_sc=0, dl_neg_sc=0;		/* search count for pos/neg */
+int32_t pen_pos_nc=0, pen_neg_nc=0;	/* node counts for pos/neg searches */
 int  pen_pos_sc=0, pen_neg_sc=0;	/* search count for pos/neg */
 
 OPTIONS Options;
 
-long total_node_count, mini_node_count, scan_node_count;
-long pattern_counter[256];
+int32_t total_node_count, mini_node_count, scan_node_count;
+int32_t pattern_counter[256];
 
 int64_t start_time;			/* in microseconds */
 
@@ -139,21 +139,21 @@ void print_stats(int pri) {
 		Options.overestim, Options.hoverestim, Options.assumedead==1?'Y':'N');
 	Debug(pri,0, "limit patterns: %c, lazy maximize: %c\n",
 		Options.limit_pat==1?'Y':'N', Options.lazy_max==1?'Y':'N');
-	Debug(pri,0,"nodes searched: total: %li, top level: %li\n",
+	Debug(pri,0,"nodes searched: total: %" PRIi32 ", top level: %" PRIi32 "\n",
 		total_node_count, IdaInfo->node_count);
-	Debug(pri,0,"mini: %li, scan: %li\n",
+	Debug(pri,0,"mini: %" PRIi32 ", scan: %" PRIi32 "\n",
 		mini_node_count, scan_node_count);
-	Debug(pri,0,"AbortNodeCount: %li, TimeOut: %i TimeOutType: %s\n",
+	Debug(pri,0,"AbortNodeCount: %" PRIi32 ", TimeOut: %i TimeOutType: %s\n",
 		MainIdaInfo.AbortNodeCount, MainIdaInfo.TimeOut,
 		MainIdaInfo.TimeOutType==REAL?"REAL":"VIRTUAL");
-	Debug(pri,0,"TT hits: %li, TT collisions: %li Req: %li, (%f)\n",
+	Debug(pri,0,"TT hits: %" PRIi32 ", TT collisions: %" PRIi32 " Req: %" PRIi32 ", (%f)\n",
 		IdaInfo->tt_hits,
 		IdaInfo->tt_cols,
 		IdaInfo->tt_reqs,
 		((float)100*IdaInfo->tt_hits)/IdaInfo->tt_reqs);
         i = ttl = 0;
         while (IdaInfo->nodes_depth[i] && IdaInfo->PrintPriority >= pri)  {
-                Mprintf( 0, " %li", IdaInfo->nodes_depth[i]);
+                Mprintf( 0, " %" PRIi32, IdaInfo->nodes_depth[i]);
                 ttl += IdaInfo->nodes_depth[i];
                 i++;
         }
@@ -174,34 +174,34 @@ void print_stats(int pri) {
 
 	Debug(pri,0,"run: sec: %li, usec: %li, t: %li\n",
 			seconds,useconds,t);
-	Debug(pri,0,"Nodes per Second: %8.0f (%ld sec.)\n",
+	Debug(pri,0,"Nodes per Second: %8.0f (%" PRId32 " sec.)\n",
 			(float)total_node_count/t,t);
-	Debug(pri,0,"AREA POS: #: %3i (%3i%%) #n: %6li  nodes/search: %3i\n",
+	Debug(pri,0,"AREA POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
 		  area_pos_sc,
 		  (int)(100*area_pos_sc)/
 		    (area_pos_sc+area_neg_sc+(area_pos_sc+area_neg_sc==0?1:0)),
 		  area_pos_nc,(area_pos_sc==0)?0:(int)area_pos_nc/area_pos_sc);
-	Debug(pri,0,"AREA NEG: #: %3i (%3i%%) #n: %6li  nodes/search: %3i\n",
+	Debug(pri,0,"AREA NEG: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
 		  area_neg_sc,
 		  (int)(100*area_neg_sc)/
 		    (area_pos_sc+area_neg_sc+(area_pos_sc+area_neg_sc==0?1:0)),
 		  area_neg_nc,(area_neg_sc==0)?0:(int)area_neg_nc/area_neg_sc);
-	Debug(pri,0,"DL   POS: #: %3i (%3i%%) #n: %6li  nodes/search: %3i\n",
+	Debug(pri,0,"DL   POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
 		  dl_pos_sc,
 		  (int)(100*dl_pos_sc)/
 		       (dl_pos_sc+dl_neg_sc+(dl_pos_sc+dl_neg_sc==0?1:0)),
 		  dl_pos_nc,(dl_pos_sc==0)?0:(int)dl_pos_nc/dl_pos_sc);
-	Debug(pri,0,"DL   NEG: #: %3i (%3i%%) #n: %6li  nodes/search: %3i\n",
+	Debug(pri,0,"DL   NEG: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
 		  dl_neg_sc,
 		  (int)(100*dl_neg_sc)/
 		       (dl_pos_sc+dl_neg_sc+(dl_pos_sc+dl_neg_sc==0?1:0)),
 		  dl_neg_nc,(dl_neg_sc==0)?0:(int)dl_neg_nc/dl_neg_sc);
-	Debug(pri,0,"PEN  POS: #: %3i (%3i%%) #n: %6li  nodes/search: %3i\n",
+	Debug(pri,0,"PEN  POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
 		  pen_pos_sc,
 		  (int)(100*pen_pos_sc)/
 		       (pen_pos_sc+pen_neg_sc+(pen_pos_sc+pen_neg_sc==0?1:0)),
 		  pen_pos_nc,(pen_pos_sc==0)?0:(int)pen_pos_nc/pen_pos_sc);
-	Debug(pri,0,"PEN  NEG: #: %3i (%3i%%) #n: %6li  nodes/search: %3i\n",
+	Debug(pri,0,"PEN  NEG: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
 		  pen_neg_sc,
 		  (int)(100*pen_neg_sc)/
 		       (pen_pos_sc+pen_neg_sc+(pen_pos_sc+pen_neg_sc==0?1:0)),

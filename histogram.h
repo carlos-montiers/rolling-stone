@@ -14,7 +14,7 @@
 typedef int H_int;
 
 typedef struct {
-	long  total_sum;
+	int32_t total_sum;
 	H_int total_count;
 	int   max_index;
 	H_int max_count;

@@ -156,7 +156,7 @@ int  AreaMove(MAZE *maze, MOVE *last_move, int treedepth, int targetpen)
 {
 	BitString	visible,no_reach,relevant;
 	IDA		idainfo,*old_idainfo;
-	long		node_count;
+	int32_t		node_count;
 	int		result;
 	int		number_stones,old_number_stones;
 	short		old_gm;
@@ -233,7 +233,7 @@ END:
 		area_neg_sc ++;
 	}
 	IdaInfo = old_idainfo;
-	SR(Debug(4,0,"AreaMove ## End search - ALIVE (nodes: %li stones: %i)\n",
+	SR(Debug(4,0,"AreaMove ## End search - ALIVE (nodes: %" PRIi32 " stones: %i)\n",
 		node_count,number_stones));
 	Options.mc_gm=old_gm;
         GetPenalty(maze,targetpen);
@@ -265,14 +265,14 @@ int ScanSearch(MAZE *maze)
 			IdaInfo->IdaMaze->h,1,1,1,0);
 	}
 	for (i=0; i<maze->number_stones; i++) {
-		Mprintf(0,"ScanSearch: h %i, nodes used: %li\n",
+		Mprintf(0,"ScanSearch: h %i, nodes used: %" PRIi32 "\n",
 			IdaInfo->IdaMaze->h, total_node_count);
 		pos = maze->stones[i].loc;
 		/*if (IsBitSetBS(maze->stones_done,pos)) continue; */
 		fake_move.to = pos;
 		PenMove(maze,entry,&fake_move,0,ENDPATH);
 	}
-	Mprintf(0,"ScanSearch: h: %i->%i, nodes used: %li\n",
+	Mprintf(0,"ScanSearch: h: %i->%i, nodes used: %" PRIi32 "\n",
 		old_h, IdaInfo->IdaMaze->h, total_node_count);
 	return(0);
 }
@@ -285,7 +285,7 @@ int  PenMove(MAZE *maze, HASHENTRY *entry, MOVE *last_move, int treedepth,
 	BitString	visible,relevant;
 	PHYSID		pos;
 	IDA		idainfo,*old_idainfo;
-	long		node_count;
+	int32_t		node_count;
 	int		result;
 	int		number_stones;
 	short		old_gm;
@@ -381,7 +381,7 @@ END:
 		pen_neg_sc ++;
 	}
 	IdaInfo = old_idainfo;
-	SR(Debug(4,0,"PenMove ## End search - ALIVE (nodes: %li stones: %i)\n",
+	SR(Debug(4,0,"PenMove ## End search - ALIVE (nodes: %" PRIi32 " stones: %i)\n",
 		node_count,number_stones));
 	Options.mc_gm=old_gm;
         GetPenalty(maze,targetpen);
@@ -469,7 +469,7 @@ int PenMiniConflict(int penalty, int minimize)
 	int        result;
 	short      old_gm;
 	IDA	   idainfo,*old_idainfo;
-	long       node_count;
+	int32_t    node_count;
 	SAVEMAZE   savemaze;
 	PHYSID     pos;
 	BitString  already,visible;
@@ -691,7 +691,7 @@ int PenIda(int treedepth, int g) {
 	SR(int here_nodes = total_node_count);
 	SR(int old_h = IdaInfo->IdaMaze->h- IdaInfo->IdaMaze->pen);
 
-        SR(Debug(5,treedepth,"starting PenIda (h=%i) (%s) %li %llx\n",
+        SR(Debug(5,treedepth,"starting PenIda (h=%i) (%s) %" PRIi32 " %" PRIx64 "\n",
 		IdaInfo->IdaMaze->h,
           	treedepth==0?"a1a1"
 		      :PrintMove(IdaInfo->IdaArray[treedepth-1].currentmove),

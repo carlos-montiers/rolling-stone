@@ -14,9 +14,9 @@
 #include "board.h"
 
 static FILE *fpTree;
-static long TreeNodes;
+static int32_t TreeNodes;
 static struct {
-   long node_no;
+   int32_t node_no;
    int  branching;
    int  type;
    int  alpha;
@@ -30,9 +30,9 @@ int GTVOpen( int depth, char fen[] )
    int  d;
    char name[15];
 
-   TreeNodes = 0L;
+   TreeNodes = 0;
    for ( d=0 ; d<MAX_GTV_DEPTH ; d++ ) {
-      Tree[d].node_no = 0L;
+      Tree[d].node_no = 0;
       Tree[d].branching = 0;
       Tree[d].type = 0;
       Tree[d].alpha = 0;
@@ -67,7 +67,7 @@ void GTVNodeExit( int d, int score, char *move )
   }
 
   fprintf( fpTree,
-           "%6ld %6ld %2d %s %6d %c %c %08lx%08lx %6d %6d %s\n",
+           "%6" PRId32 " %6" PRId32 " %2d %s %6d %c %c %08" PRIx32 "%08" PRIx32 " %6d %6d %s\n",
            Tree[d].node_no,
            (d) ? Tree[d-1].node_no : 0,
            Tree[d].branching,
@@ -75,13 +75,13 @@ void GTVNodeExit( int d, int score, char *move )
            score,
            type_chr[Tree[d].type],
            '-',
-           0L,
-           0L,
+           0,
+           0,
            Tree[d].alpha,
            Tree[d].beta,
            move );
 
-  Tree[d].node_no = 0L;
+  Tree[d].node_no = 0;
   Tree[d].branching = 0;
   Tree[d].type = 0;
   Tree[d].alpha = 0;
