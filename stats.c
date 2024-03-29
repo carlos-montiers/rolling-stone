@@ -176,38 +176,38 @@ void print_stats(int pri) {
 			seconds,useconds,t);
 	Debug(pri,0,"Nodes per Second: %8.0f (%" PRId32 " sec.)\n",
 			(float)total_node_count/t,t);
-	Debug(pri,0,"AREA POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
+	Debug(pri,0,"AREA POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  area_pos_sc,
 		  (int)(100*area_pos_sc)/
 		    (area_pos_sc+area_neg_sc+(area_pos_sc+area_neg_sc==0?1:0)),
 		  area_pos_nc,(area_pos_sc==0)?0:(int)area_pos_nc/area_pos_sc);
-	Debug(pri,0,"AREA NEG: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
+	Debug(pri,0,"AREA NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  area_neg_sc,
 		  (int)(100*area_neg_sc)/
 		    (area_pos_sc+area_neg_sc+(area_pos_sc+area_neg_sc==0?1:0)),
 		  area_neg_nc,(area_neg_sc==0)?0:(int)area_neg_nc/area_neg_sc);
-	Debug(pri,0,"DL   POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
+	Debug(pri,0,"DL   POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  dl_pos_sc,
 		  (int)(100*dl_pos_sc)/
 		       (dl_pos_sc+dl_neg_sc+(dl_pos_sc+dl_neg_sc==0?1:0)),
 		  dl_pos_nc,(dl_pos_sc==0)?0:(int)dl_pos_nc/dl_pos_sc);
-	Debug(pri,0,"DL   NEG: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
+	Debug(pri,0,"DL   NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  dl_neg_sc,
 		  (int)(100*dl_neg_sc)/
 		       (dl_pos_sc+dl_neg_sc+(dl_pos_sc+dl_neg_sc==0?1:0)),
 		  dl_neg_nc,(dl_neg_sc==0)?0:(int)dl_neg_nc/dl_neg_sc);
-	Debug(pri,0,"PEN  POS: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
+	Debug(pri,0,"PEN  POS: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  pen_pos_sc,
 		  (int)(100*pen_pos_sc)/
 		       (pen_pos_sc+pen_neg_sc+(pen_pos_sc+pen_neg_sc==0?1:0)),
 		  pen_pos_nc,(pen_pos_sc==0)?0:(int)pen_pos_nc/pen_pos_sc);
-	Debug(pri,0,"PEN  NEG: #: %3i (%3i%%) #n: %6" PRIi32 "  nodes/search: %3i\n",
+	Debug(pri,0,"PEN  NEG: #: %5i (%3i%%) #n: %8" PRIi32 "  nodes/search: %5i\n",
 		  pen_neg_sc,
 		  (int)(100*pen_neg_sc)/
 		       (pen_pos_sc+pen_neg_sc+(pen_pos_sc+pen_neg_sc==0?1:0)),
 		  pen_neg_nc,(pen_neg_sc==0)?0:(int)pen_neg_nc/pen_neg_sc);
 	if (MainIdaInfo.IdaMaze!=NULL)
-	Debug(pri,0,"DeadTested: %5i, PenTested : %5i, patterns: %i, removed: %i, killed: %i\n",
+	Debug(pri,0,"DeadTested: %6i, PenTested : %6i, patterns: %i, removed: %i, killed: %i\n",
 		MainIdaInfo.IdaMaze->conflicts->number_deadtested,
 		MainIdaInfo.IdaMaze->conflicts->number_pentested,
 		MainIdaInfo.IdaMaze->conflicts->number_patterns,
