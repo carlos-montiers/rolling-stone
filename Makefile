@@ -1,8 +1,7 @@
 #CC = purify -freeze-on-error=yes -inuse-at-exit=yes gcc
 CC = gcc
 
-# Ensure 32-bit architecture compilation and disable compiler optimizations
-OPT = -m32 -O0
+OPT = -O2
 
 #WARN = -Wall
 

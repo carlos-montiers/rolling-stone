@@ -193,10 +193,16 @@ void SetDistDistances(MAZE *maze)
 				s_curr[next_in] = curr+DirToDiff[dir];
 				s_weight[next_in] = weight+(tunnel?0:MANPEN);
 				s_from_dir[next_in++] = OppDir[dir];
+				if (next_in == ENDPATH) {
+					My_exit(1, "Maze too large for ENDPATH, recompile with larger ENDPATH!\n");
+				}
         		} else if (IsBitSetBS(maze->M[dir],curr)) {
 				s_curr[next_in] = curr+DirToDiff[dir];
 				s_weight[next_in] = weight+(tunnel?0:STONEPEN);
 				s_from_dir[next_in++] = OppDir[dir];
+				if (next_in == ENDPATH) {
+					My_exit(1, "Maze too large for ENDPATH, recompile with larger ENDPATH!\n");
+				}
 			}
 		}
 	    }
