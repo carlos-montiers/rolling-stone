@@ -68,7 +68,7 @@ extern int PATTERNRATIO;
 #define ENDPATH		4095
 #define MAXDIST         255
 #define XSIZE		20
-#define YSIZE		16 /* JS */
+#define YSIZE		20 /* JS */
 #define BASETYPE   	uint32_t
 #define PRINTBASETYPE(a) Mprintf( 0, "%08" PRIx32,a);
 
