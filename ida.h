@@ -13,6 +13,8 @@ extern IDA *IdaInfo;
 
 int   StartIda(int nomacro);
 void  PrintSolution();
+void  PrintSolutionUsingLURDNotation();
+
 int   IsGoalNodeNorm(int g);
 int   Ida(int depth, int g);
 void  SetManStoneSquares(MAZE *maze, MOVE bestmove);

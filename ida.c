@@ -9,7 +9,44 @@
 ** implied warranty.
 */
 
+#include <stdbool.h> /* BD */
 #include "board.h"
+
+void emitChar(char c) { /* BD */
+    char string[2];
+    string[0] = c;
+    string[1] = '\0';
+
+    Debug(0, -1, string);
+}
+
+void emitMove(int direction, bool isPush) { /* BD */
+    const char moves[] = "urdlURDL";
+    int index = direction + (isPush ? 4 : 0);
+    emitChar(moves[index]);
+}
+
+void PrintPlayerPath(MAZE *maze, PHYSID from, PHYSID to, PHYSID parents[]) { /* BD */
+    /* precondition: the parent squares have been calculated by calling
+       MarkPlayersReachableSquares( maze, parents )
+    */
+
+    if (from == to) {
+        return;
+    }
+
+    PHYSID parent = parents[to];
+
+    if (parent == UNDEFINED && to != maze->manpos) {
+        Debug(0, -1, "\nError: No path found from %d to %d\n", from, to);
+        getchar();
+        return;
+    }
+
+    PrintPlayerPath(maze, from, parent, parents);
+
+    emitMove(DiffToDir(to - parent), false);
+}
 
 /************************************************************************/
 /*									*/
@@ -78,7 +115,7 @@ START_IDA:
 	IdaInfo->Threshold -= IdaInfo->ThresholdInc;
 	if (result<ENDPATH) result = IdaInfo->Threshold - IdaInfo->IdaMaze->h;
 
-	/* if we used goal macros and did not find a asolution and did not
+	/* if we used goal macros and did not find a solution and did not
 	 * exhaust the search effort (#38), rerun search without goal macros */
 	if (   (   (result >= ENDPATH)
 	        || (IdaInfo->Threshold+IdaInfo->ThresholdInc >= (IdaInfo->IdaMaze->h<<1)))
@@ -105,7 +142,9 @@ printf("removing goal macro\n");
 
 		goto START_IDA;
 	}
+
 	PrintSolution();
+	PrintSolutionUsingLURDNotation(); /* BD */
 
 	DelCopiedMaze( PenMaze );
 	DelCopiedMaze( DeadMaze );
@@ -154,6 +193,49 @@ void PrintSolution()
 		Mprintf(0,"****** Invalid Solution ******\n");
 	}
 	DelCopiedMaze(maze);
+
+	IdaInfo->IdaArray[i].solution.from = 0; /* set end-of-solution marker */ /* BD */
+}
+
+void PrintSolutionUsingLURDNotation() { /* BD */
+    /* Prints the Sokoban puzzle solution using LURD notation */
+    MAZE *maze;
+    PHYSID from, to, playerFromSquare, parents[MAZESIZE], boxPath[ENDPATH + 1];
+    int i, j, k, boxPushDirection, pushCount;
+
+    maze = CopyMaze(IdaInfo->IdaMaze);
+
+    AvoidThisSquare = 0;
+    MarkReach( maze );
+
+    i = 0;
+    Debug(0, -1, "Solution:\n");
+    while (IdaInfo->IdaArray[i].solution.from != 0) {
+
+        pushCount = calculateBoxPath(maze, IdaInfo->IdaArray[i].solution.from,
+                                           IdaInfo->IdaArray[i].solution.to,
+                                           IdaInfo->IdaArray[i].solution.last_over, /* box-from-square for the last of the pushes */
+                                           boxPath);
+
+        for (j = 0; j < pushCount; j++) { /* push the box one square at a time */
+          from             = boxPath[ j ];
+          to               = boxPath[ j + 1 ];
+          boxPushDirection = DiffToDir(to - from);
+          playerFromSquare = from - DirToDiff[ boxPushDirection ];
+
+          MarkPlayersReachableSquares(maze, parents);                     /* calculate the player's path to "playerFromSquare" */
+          PrintPlayerPath(maze, maze->manpos, playerFromSquare, parents); /* emit non-pushing player moves */
+          emitMove(boxPushDirection, true);                               /* emit box push */
+
+          MANTO(maze, from); /* do the push on the board */
+          STONEFROMTO(maze, from, to );
+          MarkReach( maze );
+        }
+        i++;
+    }
+    Debug( 0, -1, "\n"); /* emit a blank line to separate the puzzle solution from the next command */
+
+    DelCopiedMaze(maze);
 }
 
 int IsGoalNodeNorm(int g)

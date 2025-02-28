@@ -23,6 +23,7 @@ void CleanReach(MAZE *maze);
 void UpdateReach(MAZE *maze, PHYSID stonepos);
 void MarkReachNoUnreach(MAZE *maze);
 void MarkReachQuick(MAZE *maze, PHYSID from);
+void MarkPlayersReachableSquares(MAZE *maze, PHYSID parents[]);
 
 int  IsStoneDone(MAZE *maze, PHYSID moveto);
 void PropStonesDone(MAZE *maze, PHYSID pos);

@@ -286,6 +286,67 @@ void MarkReachQuick( MAZE *maze, PHYSID from ) {
   BitNotAndNotAndNotBS(maze->no_reach,maze->reach,maze->out,maze->stone);
 }
 
+void MarkPlayersReachableSquares(MAZE *maze, PHYSID parents[]) { /* BD */
+    /* a BFS function to mark the player's reachable squares and store paths.
+       postcondition: except for the BFS search order and for storing the
+       paths in "parents", the function performs the same computations as
+       the original Rolling Stone "MarkReach" function.
+    */
+
+    static PHYSID queue[ENDPATH];
+    int head = 0;
+    int tail = 0;
+
+    Set0BS(maze->reach);
+
+    for (int i = 0; i < MAZESIZE; i++) {
+        parents[i] = UNDEFINED;
+    }
+
+    queue[tail++] = maze->manpos;
+    parents[maze->manpos] = maze->manpos;
+    SetBitBS(maze->reach, maze->manpos);
+
+    while (head < tail) {
+        PHYSID pos = queue[head++];
+
+        if (maze->PHYSstone[pos] > UNDEFINED) continue;
+        if (AvoidThisSquare == pos) continue;
+
+        SetBitBS(maze->reach, pos);
+
+        if (IsBitSetBS(maze->M[0], pos)) {
+            PHYSID nextPos = pos + 1;
+            if ( parents[ nextPos ] == UNDEFINED ) {
+               parents[nextPos] = pos;
+               queue[tail++] = nextPos;
+            }
+        }
+        if (IsBitSetBS(maze->M[1], pos)) {
+            PHYSID nextPos = pos + YSIZE;
+            if ( parents[ nextPos ] == UNDEFINED ) {
+               parents[nextPos] = pos;
+               queue[tail++] = nextPos;
+            }
+        }
+        if (IsBitSetBS(maze->M[2], pos)) {
+            PHYSID nextPos = pos - 1;
+            if ( parents[ nextPos ] == UNDEFINED ) {
+               parents[nextPos] = pos;
+               queue[tail++] = nextPos;
+            }
+        }
+        if (IsBitSetBS(maze->M[3], pos)) {
+            PHYSID nextPos = pos - YSIZE;
+            if ( parents[ nextPos ] == UNDEFINED ) {
+               parents[nextPos] = pos;
+               queue[tail++] = nextPos;
+            }
+        }
+    }
+    BitNotAndNotAndNotBS(maze->no_reach, maze->reach, maze->out, maze->stone);
+}
+
 int UnReach( MAZE *maze, PHYSID start, BitString treach ) {
   static PHYSID queue[ ENDPATH ];
   PHYSID pos;

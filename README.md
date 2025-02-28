@@ -11,6 +11,7 @@ The original source code can be found here:
 ## Contributions
 
 - **Jason Hood (Australia):** Applied fixes and added Windows support.
+- **Brian Damgaard (Denmark):** Added solution printing using standard LURD notation (Left, Up, Right, Down).
 - **Carlos Montiers (Chile):** Maintainer of the project, worked on Windows support.
 
 ## Basic Usage
