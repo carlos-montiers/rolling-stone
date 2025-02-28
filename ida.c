@@ -205,6 +205,9 @@ void PrintSolutionUsingLURDNotation() { /* BD */
 
     maze = CopyMaze(IdaInfo->IdaMaze);
 
+    AvoidThisSquare = 0;
+    MarkReach( maze );
+
     i = 0;
     Debug(0, -1, "Solution:\n");
     while (IdaInfo->IdaArray[i].solution.from != 0) {
