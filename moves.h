@@ -46,3 +46,4 @@ int NoMoveOrdering(int depth, int number_moves);
 int NewMoveOrdering(int depth, int number_moves);
 int ManDistMoveOrdering(int depth, int number_moves);
 
+int calculateBoxPath(MAZE *maze, PHYSID start, PHYSID goal, PHYSID lastFrom, PHYSID path[]);

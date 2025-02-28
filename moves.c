@@ -628,4 +628,100 @@ int DiffToDir(int diff)
 	}
 }
 
+int calculateBoxPath(MAZE *maze, PHYSID start, PHYSID goal, PHYSID lastFrom, PHYSID path[]) { /* BD */
+    /* calculates a box path from "start" to "goal" ending with the player on "lastFrom".
+       preconditions:
+       * the player's reachable squares have been calculated.
+       * "path[]" is large enough to contain a path of maximum length + 1.
+    */
+    static PHYSID queueFrom[MAZESIZE];
+    static PHYSID queueTo[MAZESIZE];
+    static PHYSID queueParent[DIRECTION_COUNT][MAZESIZE];
+    signed char originalBoxIndex;
+    PHYSID square, from, to, originalPlayerSquare, temporary;
+    int head, tail, direction, pushCount, index;
 
+    for (square = 0; square < MAZESIZE; square++) {
+        for (direction = NORTH; direction <= WEST; direction++) {
+            queueParent[direction][square] = UNDEFINED;
+        }
+    }
+
+    /* set initial "from" to a player-reachable square next to the box */
+    queueFrom[0] = UNDEFINED;
+    for (direction = NORTH; direction <= WEST; direction++) {
+        if (IsBitSetBS(maze->reach, start + DirToDiff[direction])) {
+            queueFrom[0] = start + DirToDiff[direction];
+            break;
+        }
+    }
+    if (queueFrom[0] == UNDEFINED) {
+       return 0;
+    }
+
+    originalPlayerSquare = maze->manpos;
+    originalBoxIndex = maze->PHYSstone[start];
+    maze->PHYSstone[start] = UNDEFINED;
+    queueTo[0] = start;
+    head = -1;
+    tail = 0;
+
+    /* BFS (breadth-first search) */
+    while ((++head) <= tail) {
+        from = queueFrom[head];
+        to = queueTo[head];
+
+        if (maze->PHYSstone[ to ] > UNDEFINED) continue;
+
+        if ((to == goal) && (from == lastFrom)) {
+           break;
+        }
+
+        MANTO(maze, from);
+        AvoidThisSquare = to;
+        MarkReach(maze);
+
+        for (direction = NORTH; direction <= WEST; direction++) {
+            square = to + DirToDiff[direction];
+            if (IsBitSetBS(maze->S[direction], to) &&
+                IsBitSetBS(maze->reach, to - DirToDiff[direction]) &&
+                (queueParent[direction][square] == UNDEFINED)) {
+                queueParent[direction][square] = head;
+                queueFrom[++tail] = to;
+                queueTo[tail] = square;
+            }
+        }
+    } // end while
+
+    /* restore game state */
+    MANTO(maze, originalPlayerSquare);
+    maze->PHYSstone[start] = originalBoxIndex;
+    AvoidThisSquare = 0;
+    MarkReach(maze);
+
+    /* path reconstruction */
+    pushCount = 0;
+
+    if (head <= tail) { /* true: found a path */
+      index = head;
+      do {
+        from = queueFrom [ index ];
+        to = queueTo[ index ];
+        path[ pushCount++ ] = to;
+        index = queueParent[ DiffToDir( to - from ) ] [ to ];
+      } while ( index > 0 );
+
+      path[ pushCount++ ] = start; /* append the start square */
+
+      // reverse the path. it was built backwards
+      for (index = 0; index < pushCount / 2; index++) {
+        temporary = path[index];
+        path[index] = path[pushCount - 1 - index];
+        path[pushCount - 1 - index] = temporary;
+      }
+
+     pushCount--; /* discount the start square */
+    }
+
+    return pushCount; /* return the number of pushes */
+}

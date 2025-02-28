@@ -69,6 +69,8 @@ extern int PATTERNRATIO;
 #define MAXDIST         255
 #define XSIZE		20
 #define YSIZE		20 /* JS */
+#define MAZESIZE	(XSIZE * YSIZE) /* BD */
+#define UNDEFINED	-1 /* BD */
 #define BASETYPE   	uint32_t
 #define PRINTBASETYPE(a) Mprintf( 0, "%08" PRIx32,a);
 
@@ -100,6 +102,7 @@ extern int PATTERNRATIO;
 #define SOUTHEAST 5
 #define SOUTHWEST 6
 #define NORTHWEST 7
+#define DIRECTION_COUNT 4 /* BD */
 
 typedef uint16_t USHORT;
 typedef  int16_t PHYSID;
@@ -385,7 +388,7 @@ typedef struct {
 	BitString  IdaStoneSquares;
 	int        Threshold;
 	int        ThresholdInc;
-	IDAARRAY   IdaArray[MAX_DEPTH];
+	IDAARRAY   IdaArray[MAX_DEPTH + 1]; /* + 1 for end-of-solution marker /* /* BD */
 	int32_t    AbortNodeCount;
 	int        ForwDepthLimit;	/* primarily used for   */
 	int        base_indent;
