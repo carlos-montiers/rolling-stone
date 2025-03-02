@@ -7,11 +7,12 @@ OPT = -O2
 
 PC = -DPC
 
-# Set stack size to 8 MB for Windows and Linux compatibility
+# Set stack size for platform compatibility
+STACK_SIZE = 8388608 # 8 MB
 ifeq ($(OS),Windows_NT)
-  LDFLAGS = -Wl,--stack,8388608
+  LDFLAGS = -Wl,--stack,$(STACK_SIZE)
 else
-  LDFLAGS = -Wl,-z,stack-size=8388608
+  LDFLAGS = -Wl,-z,stack-size=$(STACK_SIZE)
 endif
 
 #DEBUG = -DDEBUG
