@@ -1,3 +1,7 @@
 *.o
 RS
 RS.exe
+
+# Ignore IDE files
+.idea/
+.vscode/
