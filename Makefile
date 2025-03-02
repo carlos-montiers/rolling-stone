@@ -2,6 +2,9 @@
 CC = gcc
 
 OPT = -O2
+ifeq ($(OS),Windows_NT)
+  OPT += -D_WIN32
+endif
 
 #WARN = -Wall
 
