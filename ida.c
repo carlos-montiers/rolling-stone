@@ -68,6 +68,7 @@ int StartIda(int nomacro) {
 	MAZE     *maze;
 	PHYSID    pos;
 	int       i;
+	int       valid_solution;
 
 	/* initialize data structures */
 	InitNodeCount();
@@ -143,8 +144,10 @@ printf("removing goal macro\n");
 		goto START_IDA;
 	}
 
-	PrintSolution();
-	PrintSolutionUsingLURDNotation(); /* BD */
+	valid_solution = PrintSolution();
+	if (valid_solution) {
+		PrintSolutionUsingLURDNotation(); /* BD */
+	}
 
 	DelCopiedMaze( PenMaze );
 	DelCopiedMaze( DeadMaze );
@@ -154,13 +157,14 @@ printf("removing goal macro\n");
 	return(result);
 }
 
-void PrintSolution()
+int PrintSolution()
 {
 	MAZE     *maze;
 	MOVE      lastmove;
 	MOVE      solution[ENDPATH];
 	UNMOVE    unmove;
 	int       i,g;
+	int       valid_solution;
 
 	Debug(0,-1,"Path: ");
 	i = 0; g = 0;
@@ -189,12 +193,14 @@ void PrintSolution()
 	DelCopiedMaze(maze);
 
 	maze = CopyMaze(IdaInfo->IdaMaze);
-	if (ValidSolution(maze,solution)==0) {
+	valid_solution = ValidSolution(maze,solution);
+	if (!valid_solution) {
 		Mprintf(0,"****** Invalid Solution ******\n");
 	}
 	DelCopiedMaze(maze);
 
 	IdaInfo->IdaArray[i].solution.from = 0; /* set end-of-solution marker */ /* BD */
+	return valid_solution;
 }
 
 void PrintSolutionUsingLURDNotation() { /* BD */

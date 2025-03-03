@@ -12,7 +12,7 @@
 extern IDA *IdaInfo;
 
 int   StartIda(int nomacro);
-void  PrintSolution();
+int   PrintSolution();
 void  PrintSolutionUsingLURDNotation();
 
 int   IsGoalNodeNorm(int g);
