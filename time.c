@@ -17,6 +17,10 @@
 #include <sys/time.h>
 #endif
 
+#ifdef _WIN32
+HANDLE hTimer = NULL;
+#endif
+
 /* this code was generously made available by Diego Novillo
  * and Peter van Beek */
 
@@ -25,7 +29,7 @@
  */
 static void
 #ifdef _WIN32
-CALLBACK expire(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+CALLBACK expire(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 #else
 expire()
 #endif
@@ -53,7 +57,7 @@ void Set_Timer()
         MainIdaInfo.TimedOut = NO;
 
 #ifdef _WIN32
-	SetTimer(NULL, 0, MainIdaInfo.TimeOut * 1000, expire);
+	CreateTimerQueueTimer(&hTimer, NULL, expire, NULL, MainIdaInfo.TimeOut * 1000, 0, 0);
 #else
 	time_limit = MainIdaInfo.TimeOut;
 	type = MainIdaInfo.TimeOutType;
@@ -96,3 +100,9 @@ void Set_Timer()
 #endif
 }
 
+void Remove_Timer()
+{
+#ifdef _WIN32
+    DeleteTimerQueueTimer(NULL, hTimer, NULL);
+#endif
+}

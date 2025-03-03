@@ -144,6 +144,8 @@ printf("removing goal macro\n");
 		goto START_IDA;
 	}
 
+	Remove_Timer();
+
 	valid_solution = PrintSolution();
 	if (valid_solution) {
 		PrintSolutionUsingLURDNotation(); /* BD */
