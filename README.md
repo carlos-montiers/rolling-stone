@@ -1,23 +1,25 @@
 # Rolling Stone
 
-Sokoban solver originally developed at the University of Alberta in the 1990s by Andreas Junghanns and Jonathan Schaeffer.
+A Sokoban solver program originally developed at the University of Alberta in the 1990s.
 
-## Original Code
+**Web Page:**
+* https://github.com/carlos-montiers/rolling-stone/releases
 
-The original source code can be found here:
-
+**Original Source Code:**
 * https://webdocs.cs.ualberta.ca/~games/Sokoban/Src/RS_src.tgz
 
-## Contributions
+## Credits
 
-- **Jason Hood (Australia):** Applied fixes and added Windows support.
-- **Brian Damgaard (Denmark):** Added solution printing using standard LURD notation (Left, Up, Right, Down).
-- **Carlos Montiers (Chile):** Maintainer of the project, worked on Windows support.
+- **Andreas Junghanns:** Original author.
+- **Jonathan Schaeffer:** Ph.D. advisor.
+- **Jason Hood (Australia):** Ported the program from Unix to Windows, added 64-bit support, and resolved a significant performance degradation issue.
+- **Brian Damgaard (Denmark):** Added solution printing in standard LURD notation to facilitate easier solution verification and interoperability with other programs.
+- **Carlos Montiers (Chile):** Project management and contributions to the Windows port.
 
 ## Basic Usage
 
 ### Interactive Usage
 
-- `?` - Shows the menu options.
+- `?` - Displays the menu options.
 - `S 1` - Solves puzzle 1.
-- `Q` - Quit the program.
+- `Q` - Quits the program.
