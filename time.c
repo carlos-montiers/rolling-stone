@@ -35,7 +35,6 @@ expire()
 #endif
 {
         MainIdaInfo.TimedOut = YES;
-	Mprintf(0,"\nTimeOut!!\n");
 }
 
 /*

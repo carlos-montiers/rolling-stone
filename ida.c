@@ -147,10 +147,16 @@ printf("removing goal macro\n");
 
 	Remove_Timer();
 
-	valid_solution = PrintSolution();
-	if (valid_solution) {
-		PrintSolutionUsingLURDNotation(); /* BD */
+	if (MainIdaInfo.TimedOut == YES) {
+		Debug( 0, -1, "TimeOut!!\n");
+	} else {
+		valid_solution = PrintSolution();
+		if (valid_solution) {
+			PrintSolutionUsingLURDNotation(); /* BD */
+		}
 	}
+
+	Debug( 0, -1, "\n");
 
 	DelCopiedMaze( PenMaze );
 	DelCopiedMaze( DeadMaze );
@@ -198,7 +204,7 @@ int PrintSolution()
 	maze = CopyMaze(IdaInfo->IdaMaze);
 	valid_solution = ValidSolution(maze,solution);
 	if (!valid_solution) {
-		Mprintf(0,"****** Invalid Solution ******\n");
+		Debug(0, -1, "****** No Solution Found ******\n");
 	}
 	DelCopiedMaze(maze);
 
