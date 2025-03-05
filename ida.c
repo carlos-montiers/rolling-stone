@@ -118,7 +118,8 @@ START_IDA:
 
 	/* if we used goal macros and did not find a solution and did not
 	 * exhaust the search effort (#38), rerun search without goal macros */
-	if (   (   (result >= ENDPATH)
+	if (MainIdaInfo.TimedOut == NO
+	    && (   (result >= ENDPATH)
 	        || (IdaInfo->Threshold+IdaInfo->ThresholdInc >= (IdaInfo->IdaMaze->h<<1)))
 	    && nomacro==YES
 	    && IdaInfo->IdaMaze->number_grooms > 0
