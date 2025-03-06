@@ -625,27 +625,44 @@ char
 | In:   cmdstr   The command string
 |       no       The number of the parameter we want to get.
 |
-| Return:    Pointer to paramenter number no in the command string
+| Return:    Pointer to parameter number no in the command string
 |
 | Side eff.: None.
 |
 =============================================================================*/
-*CmdParam( char cmdstr[], int no )
-{
-   static char tmpcmdstr[SZ_CMDSTR+1];
-   char *p, *found;
+*CmdParam(char *cmdstr, int no) { /* BD */
+    /* This version of the "*CmdParam" function handles arguments in double quotes,
+       for instance, puzzle file names including spaces and escaped double quotes.
+    */
+    static char tmpcmdstr[SZ_CMDSTR+1];
+    char *p = tmpcmdstr, *start = NULL;
+    int countdown = no + 1;
 
-   strncpy( tmpcmdstr, cmdstr, SZ_CMDSTR );
-   found = NULL;
-   p = strtok( tmpcmdstr, " " );
-   while ( p != NULL ) {
-      if ( no == 0 )
-         found = p;
-      no--;
-      p = strtok( NULL, " " );
-   }
+    /* Copy input string to avoid modifying the original */
+    strncpy(tmpcmdstr, cmdstr, sizeof(tmpcmdstr) - 1);
+    tmpcmdstr[sizeof(tmpcmdstr) - 1] = '\0';         /* Ensure null termination */
 
-   return ( found );
+    while (*p && countdown > 0) {
+        while (isspace((unsigned char)*p)) p++;              /* Skip whitespace */
+        if (!*p) break;                                          /* End of text */
+        if (*p == '"') {                                     /* Quoted argument */
+            p++;                                          /* Skip opening quote */
+            start = p;                                     /* Start of argument */
+            while (*p && *p != '"') {
+                if (*p == '\\' && *(p + 1)) p++;       /* Skip escape character */
+                p++;
+            }
+            if (!*p) return NULL;                      /* Error: Unclosed quote */
+            *p = '\0';                           /* Null-terminate the argument */
+            p++;                                     /* Move past closing quote */
+        } else {                                           /* Unquoted argument */
+            start = p;                                     /* Start of argument */
+            while (*p && !isspace((unsigned char)*p)) p++;   /* Find next space */
+            if (*p) *p++ = '\0'; /* Terminate argument and move past whitespace */
+        }
+        countdown--;                                // Advance to next argument */
+    }
+    return (countdown == 0) ? start : NULL;
 }
 
 void ParseMakeMoves(char *param)
