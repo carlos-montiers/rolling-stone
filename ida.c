@@ -150,7 +150,7 @@ printf("removing goal macro\n");
 
 	if (MainIdaInfo.TimedOut == YES) {
 		Debug( 0, -1, "\n%s\n\n", IdaInfo->IdaMaze->name );
-		Debug( 0, -1, "TimeOut!!\n");
+		Debug( 0, -1, "Timeout!\n");
 	} else {
 		valid_solution = PrintSolution();
 		if (valid_solution) {
