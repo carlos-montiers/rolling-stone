@@ -17,7 +17,7 @@
 void sigint () {
 
 	Mprintf( 0, "\n");
-	PrintMaze(IdaInfo->IdaMaze);
+	PrintMaze(IdaInfo->IdaMaze, true);
 	print_stats(0);
 	signal(SIGINT,sigint);
 }

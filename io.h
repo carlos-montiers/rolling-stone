@@ -9,10 +9,12 @@
 ** implied warranty.
 */
 
+#include <stdbool.h> /* BD */
+
 extern int PosNr;
 
 void ReadMaze(FILE *fp, MAZE *maze );
-void PrintMaze(MAZE *maze);
+void PrintMaze(MAZE *maze, bool printGoalRooms /* BD */);
 char *PrintMove(MOVE move);
 char *HumanMove(MOVE move);
 void PrintBit2Maze(MAZE *maze,BitString marks);

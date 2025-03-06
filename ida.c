@@ -10,6 +10,7 @@
 */
 
 #include <stdbool.h> /* BD */
+#include <inttypes.h>
 #include "board.h"
 
 void emitChar(char c) { /* BD */
@@ -148,6 +149,7 @@ printf("removing goal macro\n");
 	Remove_Timer();
 
 	if (MainIdaInfo.TimedOut == YES) {
+		Debug( 0, -1, "\n%s\n\n", IdaInfo->IdaMaze->name );
 		Debug( 0, -1, "TimeOut!!\n");
 	} else {
 		valid_solution = PrintSolution();
@@ -219,6 +221,9 @@ void PrintSolutionUsingLURDNotation() { /* BD */
     int i, j, k, boxPushDirection, pushCount;
 
     maze = CopyMaze(IdaInfo->IdaMaze);
+
+    Debug( 0, -1, "\n%s\n\n", maze->name );
+    PrintMaze( maze, false );
 
     AvoidThisSquare = 0;
     MarkReach( maze );

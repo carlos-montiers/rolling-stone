@@ -13,14 +13,18 @@
 
 int PosNr=0;
 
-void PrintMaze(MAZE *maze) {
+void PrintMaze(MAZE *maze, bool printGoalRooms /* BD */) {
 	int x,y,num_empty,pos;
-	char buff[XSIZE*2+2];
+	char buff[XSIZE*2+4]; /* BD */
 
 	if (maze == NULL) return;
 	num_empty=0;
 	for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
 		buff[0]='\0';
+		if (printGoalRooms) { /* BD */
+			/* make it an unreadable puzzle */
+			strcat(buff,"; "); /* BD */
+		}
 		num_empty = 0;
 		for (x = 0; x<XSIZE; x++) {
 			pos = XY2ID(x,y);
@@ -37,18 +41,19 @@ void PrintMaze(MAZE *maze) {
 				strcat(buff," ");
 				num_empty++;
 			}
-			else if (maze->groom_index[x*YSIZE+y]>=0)
+			else if ((printGoalRooms) /* BD */
+				    && (maze->groom_index[x*YSIZE+y]>=0)) {
 				sprintf(&buff[strlen(buff)],"%i",
 					maze->groom_index[x*YSIZE+y]%10);
-			else strcat(buff," ");
+			} else strcat(buff," ");
 		}
 		Mprintf( 0, "%s\n",buff);
 	}
-	Mprintf( 0, "%s\n",buff);
-	Mprintf( 0, "manpos: %i h: %i pen: %i search nodes: %" PRIi32 " patterns: %d total nodes: %" PRIi32 "\n",
-		 maze->manpos,maze->h,maze->pen,
-		 IdaInfo->node_count,maze->conflicts->number_patterns,
-		 total_node_count );
+	if (printGoalRooms) { /* BD */
+		Mprintf( 0, "\nmanpos: %i h: %i pen: %i search nodes: %" PRIi32 " patterns: %d total nodes: %" PRIi32 "\n",
+			maze->manpos,maze->h,maze->pen,
+			IdaInfo->node_count, maze->conflicts->number_patterns, total_node_count );
+	}
 }
 
 void ReadMaze(FILE *fp, MAZE *maze ) {
@@ -226,11 +231,12 @@ char *HumanMove(MOVE move) {
 
 void PrintBit2Maze(MAZE *maze,BitString marks) {
 	int x,y,num_empty,pos;
-	char buff[XSIZE*2+2];
+	char buff[XSIZE*2+4]; /* BD */
 
 	num_empty=0;
 	for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
 		buff[0]='\0';
+		strcat(buff, "; "); /* BD */
 		num_empty = 0;
 		for (x = 0; x<XSIZE; x++) {
 			pos = XY2ID(x,y);
@@ -249,11 +255,12 @@ void PrintBit2Maze(MAZE *maze,BitString marks) {
 
 void PrintBit3Maze(MAZE *maze,BitString marks,BitString mark2, PHYSID manpos) {
 	int x,y,num_empty,pos;
-	char buff[XSIZE*2+2];
+	char buff[XSIZE*2+4]; /* BD */
 
 	num_empty=0;
 	for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
 		buff[0]='\0';
+		strcat(buff, "; "); /* BD */
 		num_empty = 0;
 		for (x = 0; x<XSIZE; x++) {
 			pos = XY2ID(x,y);

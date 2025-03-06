@@ -599,7 +599,7 @@ int PenStartIda() {
 
 	GetPenalty(IdaInfo->IdaMaze,ENDPATH);
 	IdaInfo->Threshold = IdaInfo->IdaMaze->h;
-/*PrintMaze(IdaInfo->IdaMaze);*/
+/*PrintMaze(IdaInfo->IdaMaze, true);*/
 	for(;;) {
 		GetPenalty(IdaInfo->IdaMaze,ENDPATH);
 		SR(Debug(3,0,"PenStartIda: Threshold %i (%i) [%i]\n",

@@ -1494,12 +1494,13 @@ void GMDelHashEntry(HASHKEY key) {
 void PrintMazeValue(MAZE *maze, int index, int values[MAXGOALS])
 {
 	int x,y,num_empty,pos;
-	char buff[XSIZE*YSIZE*5+2];
+	char buff[XSIZE*YSIZE*5+4];
 
 	if (maze == NULL) return;
 	num_empty=0;
 	for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
 		buff[0]='\0';
+		strcat(buff,"; ");
 		num_empty = 0;
 		for (x = 0; x<XSIZE; x++) {
 			pos = XY2ID(x,y);
@@ -1536,12 +1537,13 @@ void PrintGoalMacro(MAZE *maze, GROOM *groom, int setpos, int entri,
 		int goali, int values[MAXGOALS], int before[MAXGOALS])
 {
 	int x,y,num_empty,pos;
-	char buff[XSIZE*YSIZE*5+2];
+	char buff[XSIZE*YSIZE*5+4];
 
 	if (maze == NULL) return;
 	num_empty=0;
 	for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
 		buff[0]='\0';
+		strcat(buff,"; ");
 		num_empty = 0;
 		for (x = 0; x<XSIZE; x++) {
 			pos = XY2ID(x,y);

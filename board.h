@@ -348,6 +348,7 @@ typedef struct {
 		/* For the goal-push cutoff, if we could push a stone to a goal
 		   using macro we cut all alternatives to pushing that stone */
 	PHYSID	     goal_sqto;
+	char         name[128]; /* BD */
 } MAZE;
 
 typedef struct {

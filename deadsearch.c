@@ -421,7 +421,7 @@ int DeadIda(int treedepth, int g) {
 	SR(GMNODE **old_gmnode = IdaInfo->IdaMaze->gmtrees);
 	SR(int here_nodes = total_node_count);
 	SR(int old_h = IdaInfo->IdaMaze->h- IdaInfo->IdaMaze->pen);
-/*PrintMaze(IdaInfo->IdaMaze);*/
+/*PrintMaze(IdaInfo->IdaMaze, true);*/
 
         SR(Debug(5,treedepth,"starting ida (h=%i) (%s) %" PRIi32 " %" PRIx64 "\n",
 		IdaInfo->IdaMaze->h,

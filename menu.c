@@ -118,7 +118,7 @@ MainMenu()
 {
    COMMAND cmd;
    char    cmdstr[SZ_CMDSTR+1];
-   char    name[100];
+   char    name[SZ_CMDSTR+1]; /* BD */
    char    *param;
    FILE    *fp;
    int     no,i;
@@ -137,11 +137,14 @@ MainMenu()
 			MakeName(name,&Cur_Maze_Number, CmdParam(cmdstr,1),
 							CmdParam(cmdstr,2));
 			if ((fp = fopen(name,"r")) != NULL) {
-   				Mprintf( 0, "Maze %s:\n", name );
+				Mprintf( 0, "\n\nMaze %s\n\n", name ); /* BD */
 				MainIdaInfo.IdaMaze = &Maze;
 				ReadMaze(fp,&Maze);
 				fclose(fp);
 				IdaInfo = &MainIdaInfo;
+				strncpy(MainIdaInfo.IdaMaze->name, name, sizeof( MainIdaInfo.IdaMaze->name ) - 1); /* BD */
+				MainIdaInfo.IdaMaze->name[ sizeof( MainIdaInfo.IdaMaze->name ) - 1 ] = '\0';       /* BD */
+
 				StartIda(YES);
 			} else {
                                 My_exit(1,"Menu: %s %s\n",name,strerror(errno));
@@ -218,7 +221,7 @@ MainMenu()
 			if (move.from != 0) {
 				move.to   = atoi(CmdParam(cmdstr,2));
 				move.last_over = move.from;
-				PrintMaze(&Maze);
+				PrintMaze(&Maze, true);
 				/*PrintMatches(&Maze);*/
 				MakeMove(&Maze,&move,&unmove,ENDPATH);
 			} else {
@@ -706,7 +709,7 @@ READ_TO:
 		cut = RegisterMove(&S->currentmove,
 			IdaInfo->IdaMaze->currentmovenumber);
 		/* PrintMatches(IdaInfo->IdaMaze);*/
-		PrintMaze(IdaInfo->IdaMaze);
+		PrintMaze(IdaInfo->IdaMaze, true);
 		MakeMove(IdaInfo->IdaMaze,&S->currentmove,&S->unmove,ENDPATH);
 		Mprintf(0,"XX g: %3d, h: %3d, g+h: %3d, distant: %c, cut: %c\n",
 			IdaInfo->IdaMaze->g, IdaInfo->IdaMaze->h,
