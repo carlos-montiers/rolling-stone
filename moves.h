@@ -38,7 +38,7 @@ void PushesMoves(MAZE *maze, PHYSID start, PHYSID goal,
 void PushesMoves2(MAZE *maze, PHYSID start, PHYSID goal,
 		 int *pushes, int *moves,
 		 BitString stone_squares, BitString man_squares);
-int  ValidSolution(MAZE *maze, MOVE *solution);
+bool ValidSolution(MAZE *maze, MOVE *solution);
 int DiffToDir(int diff);
 
 /* all the move ordering functions: */

@@ -9,8 +9,6 @@
 ** implied warranty.
 */
 
-#include <stdbool.h> /* BD */
-#include <inttypes.h>
 #include "board.h"
 
 void emitChar(char c) { /* BD */
@@ -69,7 +67,7 @@ int StartIda(int nomacro) {
 	MAZE     *maze;
 	PHYSID    pos;
 	int       i;
-	int       valid_solution;
+	bool      valid_solution;
 
 	/* initialize data structures */
 	InitNodeCount();
@@ -168,14 +166,14 @@ printf("removing goal macro\n");
 	return(result);
 }
 
-int PrintSolution()
+bool PrintSolution()
 {
 	MAZE     *maze;
 	MOVE      lastmove;
 	MOVE      solution[ENDPATH];
 	UNMOVE    unmove;
 	int       i,g;
-	int       valid_solution;
+	bool      valid_solution;
 
 	Debug(0,-1,"Path: ");
 	i = 0; g = 0;

@@ -577,7 +577,7 @@ void PushesMoves2(MAZE *maze, PHYSID start, PHYSID goal,
   SetBitBS( man_squares, fro );
 }
 
-int ValidSolution(MAZE *maze, MOVE *solution) {
+bool ValidSolution(MAZE *maze, MOVE *solution) {
 
 	int number_pushes, number_moves, i;
 	int p,m;
@@ -598,9 +598,8 @@ int ValidSolution(MAZE *maze, MOVE *solution) {
 	Mprintf(0,"Moves: %i, Pushes: %i, Treedepth: %i\n",
 		number_moves,number_pushes,i);
 	if (maze->h!=0)
-		return(0);
-	else return(number_pushes);
-
+		return false;
+	return true;
 }
 
 
