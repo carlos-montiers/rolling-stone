@@ -23,7 +23,7 @@ void emitChar(char c) { /* BD */
 
 void emitMove(int direction, bool isPush) { /* BD */
     const char moves[] = "urdlURDL";
-    int index = direction + (isPush ? 4 : 0);
+    int index = direction + (isPush ? DIRECTION_COUNT : 0);
     emitChar(moves[index]);
 }
 
