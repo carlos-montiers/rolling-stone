@@ -79,6 +79,8 @@ int StartIda(int nomacro) {
 	Set_Timer();
 	init_stats();
 
+	MainIdaInfo.StartTimeMS = GetTimeInMilliseconds();
+
 START_IDA:
 	InitHashTables();
 
@@ -146,6 +148,8 @@ printf("removing goal macro\n");
 
 	Remove_Timer();
 
+	MainIdaInfo.StopTimeMS = GetTimeInMilliseconds();
+
 	if (MainIdaInfo.TimedOut == YES) {
 		Debug( 0, -1, "\n%s\n\n", IdaInfo->IdaMaze->name );
 		Debug( 0, -1, "Timeout!\n");
@@ -155,6 +159,9 @@ printf("removing goal macro\n");
 			PrintSolutionUsingLURDNotation(); /* BD */
 		}
 	}
+
+	uint64_t timeSeconds = CalculateElapsedTimeSeconds(MainIdaInfo.StartTimeMS, MainIdaInfo.StopTimeMS);
+	Debug(0, -1, "\nTime: %llu second%s\n", timeSeconds, timeSeconds == 1 ? "" : "s");
 
 	Debug( 0, -1, "\n");
 
