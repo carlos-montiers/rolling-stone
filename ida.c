@@ -205,7 +205,11 @@ bool PrintSolution()
 	valid_solution = ValidSolution(maze,solution);
 	Debug( 0, -1, "\n%s\n\n", maze->name );
 	if (!valid_solution) {
-		Debug(0, -1, "****** No Solution Found ******\n");
+		if (i == 0) {
+			Debug(0, -1, "No solution found\n");
+		} else {
+			Debug(0, -1, "Invalid solution\n");
+		}
 	}
 	DelCopiedMaze(maze);
 
