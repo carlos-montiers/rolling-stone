@@ -428,6 +428,8 @@ typedef struct {
 	int	   TimeOut;
 	int	   TimeOutType;
 	int	   TimedOut;
+	uint64_t   StartTimeMS; /* BD */
+	uint64_t   StopTimeMS;  /* BD */
 } IDA;
 
 /************ exports ******************/

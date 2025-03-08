@@ -11,3 +11,5 @@
 
 void Set_Timer();
 void Remove_Timer();
+uint64_t GetTimeInMilliseconds();
+uint64_t CalculateElapsedTimeSeconds(uint64_t startTimeMS, uint64_t stopTimeMS);

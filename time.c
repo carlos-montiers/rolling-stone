@@ -21,6 +21,9 @@
 HANDLE hTimer = NULL;
 #endif
 
+#define MILLISECONDS_PER_SECOND 1000
+#define NANOSECONDS_PER_MILLISECOND 1000000
+
 /* this code was generously made available by Diego Novillo
  * and Peter van Beek */
 
@@ -118,4 +121,24 @@ void Remove_Timer()
 #else
         signal( MainIdaInfo.TimeOutType == REAL ? SIGALRM : SIGVTALRM, SIG_IGN );
 #endif
+}
+
+/* Common function to get the start and stop times depending on the platform */
+/* This function measures time that is not affected by hibernation or sleep */
+uint64_t GetTimeInMilliseconds() { /* CM */
+#ifdef _WIN32
+	ULONGLONG unbiased_time_100ns;
+	QueryUnbiasedInterruptTime(&unbiased_time_100ns);
+	return (unbiased_time_100ns / (NANOSECONDS_PER_MILLISECOND / 100));
+#else
+	struct timespec time;
+	clock_gettime(CLOCK_MONOTONIC, &time);
+	return (time.tv_sec * MILLISECONDS_PER_SECOND) + (time.tv_nsec / NANOSECONDS_PER_MILLISECOND);
+#endif
+}
+
+// Function to calculate the elapsed time in seconds, rounded to the nearest second
+uint64_t CalculateElapsedTimeSeconds(uint64_t startTimeMS, uint64_t stopTimeMS) { /* BD */
+	uint64_t elapsedMilliseconds = stopTimeMS - startTimeMS;
+	return (elapsedMilliseconds + MILLISECONDS_PER_SECOND / 2) / MILLISECONDS_PER_SECOND;
 }
