@@ -22,37 +22,38 @@ void PrintMaze(MAZE *maze, bool printGoalRooms /* BD */) {
 	for (y = YSIZE-1; y>=0 && num_empty<XSIZE ; y--) {
 		buff[0]='\0';
 		if (printGoalRooms) { /* BD */
-			/* make it an unreadable puzzle */
-			strcat(buff,"; "); /* BD */
+		   /* make it an unreadable puzzle */
+		   strcat(buff,"; "); /* BD */
 		}
 		num_empty = 0;
 		for (x = 0; x<XSIZE; x++) {
 			pos = XY2ID(x,y);
 			if (pos == PosNr) strcat(buff,"?");
 			else if (IsBitSetBS(maze->wall,pos)) strcat(buff,"#");
-			else if (   maze->PHYSstone[pos]>=0
-			    && maze->Phys[pos].goal>=0) strcat(buff,"*");
+			else if ( maze->PHYSstone[pos]>=0
+					  && maze->Phys[pos].goal>=0) strcat(buff,"*");
 			else if (maze->PHYSstone[pos]>=0) strcat(buff,"$");
-			else if (  maze->manpos==pos
-				 &&maze->Phys[pos].goal>=0) strcat(buff,"+");
+			else if ( maze->manpos==pos
+					  && maze->Phys[pos].goal>=0) strcat(buff,"+");
 			else if (maze->manpos==pos) strcat(buff,"@");
 			else if (maze->Phys[pos].goal>=0) strcat(buff,".");
 			else if (IsBitSetBS(maze->out,pos)) {
-				strcat(buff," ");
-				num_empty++;
+					strcat(buff," ");
+					num_empty++;
 			}
 			else if ((printGoalRooms) /* BD */
-				    && (maze->groom_index[x*YSIZE+y]>=0)) {
-				sprintf(&buff[strlen(buff)],"%i",
-					maze->groom_index[x*YSIZE+y]%10);
-			} else strcat(buff," ");
+					 && (maze->groom_index[x*YSIZE+y]>=0)) {
+					sprintf(&buff[strlen(buff)],"%i",
+							maze->groom_index[x*YSIZE+y]%10);
+			}
+			else strcat(buff," ");
 		}
 		Mprintf( 0, "%s\n",buff);
 	}
 	if (printGoalRooms) { /* BD */
 		Mprintf( 0, "\nmanpos: %i h: %i pen: %i search nodes: %" PRIi32 " patterns: %d total nodes: %" PRIi32 "\n",
-			maze->manpos,maze->h,maze->pen,
-			IdaInfo->node_count, maze->conflicts->number_patterns, total_node_count );
+				 maze->manpos,maze->h,maze->pen,
+				 IdaInfo->node_count, maze->conflicts->number_patterns, total_node_count );
 	}
 }
 
