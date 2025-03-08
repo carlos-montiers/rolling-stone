@@ -50,10 +50,10 @@ void Set_Timer()
 	int    type;
 #endif
 
+	MainIdaInfo.TimedOut = NO;
+
 	/* set alarm only, if time limit was set */
 	if (MainIdaInfo.TimeOut<=0) return;
-
-        MainIdaInfo.TimedOut = NO;
 
 #ifdef _WIN32
 	CreateTimerQueueTimer(&hTimer, NULL, expire, NULL, MainIdaInfo.TimeOut * 1000, 0, 0);
