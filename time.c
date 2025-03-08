@@ -44,7 +44,10 @@ expire()
  */
 void Set_Timer()
 {
-#ifndef _WIN32
+#ifdef _WIN32
+	BOOL   timer_created;
+	DWORD  due_time_ms;
+#else
         struct itimerval value;
 	int    time_limit;
 	int    type;
@@ -56,7 +59,8 @@ void Set_Timer()
 	if (MainIdaInfo.TimeOut<=0) return;
 
 #ifdef _WIN32
-	CreateTimerQueueTimer(&hTimer, NULL, expire, NULL, MainIdaInfo.TimeOut * 1000, 0, 0);
+	due_time_ms = MainIdaInfo.TimeOut * 1000;
+	timer_created = CreateTimerQueueTimer(&hTimer, NULL, expire, NULL, due_time_ms, 0, 0);
 #else
 	time_limit = MainIdaInfo.TimeOut;
 	type = MainIdaInfo.TimeOutType;
