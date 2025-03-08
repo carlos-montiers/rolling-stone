@@ -203,6 +203,7 @@ bool PrintSolution()
 
 	maze = CopyMaze(IdaInfo->IdaMaze);
 	valid_solution = ValidSolution(maze,solution);
+	Debug( 0, -1, "\n%s\n\n", maze->name );
 	if (!valid_solution) {
 		Debug(0, -1, "****** No Solution Found ******\n");
 	}
@@ -220,7 +221,6 @@ void PrintSolutionUsingLURDNotation() { /* BD */
 
     maze = CopyMaze(IdaInfo->IdaMaze);
 
-    Debug( 0, -1, "\n%s\n\n", maze->name );
     PrintMaze( maze, false );
 
     AvoidThisSquare = 0;
