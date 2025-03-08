@@ -102,7 +102,10 @@ void Set_Timer()
 void Remove_Timer()
 {
 #ifdef _WIN32
-        DeleteTimerQueueTimer(NULL, hTimer, NULL);
+        if (hTimer != NULL) {
+            DeleteTimerQueueTimer(NULL, hTimer, NULL);
+            hTimer = NULL;
+        }
 #else
         signal( MainIdaInfo.TimeOutType == REAL ? SIGALRM : SIGVTALRM, SIG_IGN );
 #endif
