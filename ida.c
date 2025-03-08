@@ -534,7 +534,7 @@ void InitIDA(IDA *ida)
 
 	ida->PrintPriority  = 0;
 	ida->TimeOut        = 0;
-	ida->TimeOutType    = VIRTUAL;
+	ida->TimeOutType    = REAL;
 	ida->TimedOut       = 0;
 
 }
