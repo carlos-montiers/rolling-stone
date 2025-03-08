@@ -161,10 +161,17 @@ MainMenu()
 			if (param != NULL)
 				MainIdaInfo.TimeOut = atoi(param);
 			param = CmdParam(cmdstr,2);
-			if (param != NULL && param[0]=='R')
+			if (param != NULL && param[0]=='R') {
 				MainIdaInfo.TimeOutType = REAL;
-			if (param != NULL && param[0]=='V')
-				MainIdaInfo.TimeOutType = VIRTUAL;
+			}
+			if (param != NULL && param[0]=='V') {
+				#ifndef _WIN32
+					MainIdaInfo.TimeOutType = VIRTUAL;
+				#else
+					/* On Windows, it is only implemented as REAL */
+					MainIdaInfo.TimeOutType = REAL;
+				#endif
+			}
 			break;
 	case CmdTestAll:
 			break;
