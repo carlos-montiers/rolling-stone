@@ -61,6 +61,10 @@ void Set_Timer()
 #ifdef _WIN32
 	due_time_ms = MainIdaInfo.TimeOut * 1000;
 	timer_created = CreateTimerQueueTimer(&hTimer, NULL, expire, NULL, due_time_ms, 0, 0);
+	if (!timer_created) { /* BD */
+		hTimer = NULL;
+		My_exit(1, "Timer allocation failed. Error code: %lu\n", GetLastError());
+	};
 #else
 	time_limit = MainIdaInfo.TimeOut;
 	type = MainIdaInfo.TimeOutType;
@@ -107,7 +111,8 @@ void Remove_Timer()
 {
 #ifdef _WIN32
         if (hTimer != NULL) {
-            DeleteTimerQueueTimer(NULL, hTimer, NULL);
+            /* Wait for any running callback to complete before removing the timer - BD */
+            DeleteTimerQueueTimer(NULL, hTimer, INVALID_HANDLE_VALUE);
             hTimer = NULL;
         }
 #else
