@@ -1,7 +1,7 @@
 #CC = purify -freeze-on-error=yes -inuse-at-exit=yes gcc
 CC = gcc
 
-OPT = -O2
+OPT = -O2 -s
 ifeq ($(OS),Windows_NT)
   OPT += -D_WIN32
 endif
@@ -13,9 +13,9 @@ PC = -DPC
 # Set stack size for platform compatibility
 STACK_SIZE = 8388608 # 8 MB
 ifeq ($(OS),Windows_NT)
-  LDFLAGS = -Wl,--stack,$(STACK_SIZE)
+  LDFLAGS = -Wl,-strip-all,--stack,$(STACK_SIZE)
 else
-  LDFLAGS = -Wl,-z,stack-size=$(STACK_SIZE)
+  LDFLAGS = -Wl,-strip-all,-z,stack-size=$(STACK_SIZE)
 endif
 
 #DEBUG = -DDEBUG
