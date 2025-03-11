@@ -70,7 +70,7 @@ CMDMENU cmdMainMenu[] = {
    { "B", CmdOptionLA,   "B [on/off]    Auto Set Local Cut Parameter" },
    { "V", CmdOptionOE,   "V [s] [h]     Overestimation scaling factor and h-scaling" },
    { "F", CmdOptionAD,   "F [on/off]    Assume dead on/off" },
-   { "O", CmdOptionMO,   "O number      Set Move order index (0-off)" },
+   { "O", CmdOptionMO,   "O number      Set Move order index (0-4)" },
    { NULL } };
 
 int  Cur_Maze_Number;
@@ -294,6 +294,7 @@ void OptionsMenu()
 				Options.tt = NO;
 		}
 		else Options.tt = !Options.tt;
+		Mprintf(0, "Set HashTable parameter: %s\n", boolToString(Options.tt));
 		break;
         case CmdOptionDL:
 		param = CmdParam(cmdstr,1);
@@ -304,6 +305,7 @@ void OptionsMenu()
 				Options.dl_mg = NO;
 		}
 		else Options.dl_mg = !Options.dl_mg;
+		Mprintf(0, "Set deadlock det. movegen parameter: %s\n", boolToString(Options.dl_mg));
 		break;
 	case CmdOptionDZ:
 		param = CmdParam(cmdstr,1);
@@ -314,6 +316,7 @@ void OptionsMenu()
 				Options.dl2_mg = NO;
 		}
 		else Options.dl2_mg = !Options.dl2_mg;
+		Mprintf(0, "Set deadlock2 det. movegen parameter: %s\n", boolToString(Options.dl2_mg));
 		break;
 	case CmdOptionPS:
 		param = CmdParam(cmdstr,1);
@@ -324,6 +327,7 @@ void OptionsMenu()
 				Options.pen_srch = NO;
 		}
 		else Options.pen_srch = !Options.pen_srch;
+		Mprintf(0, "Set pensearch parameter: %s\n", boolToString(Options.pen_srch));
 		break;
 	case CmdOptionCS:
 		param = CmdParam(cmdstr,1);
@@ -334,10 +338,14 @@ void OptionsMenu()
 				Options.scan_srch = NO;
 		}
 		else Options.scan_srch = !Options.scan_srch;
+		Mprintf(0, "Set scan search parameter: %s\n", boolToString(Options.scan_srch));
 		break;
 	case CmdOptionPL:
 		param = CmdParam(cmdstr,1);
-		if (param != NULL) MainIdaInfo.pattern_node_limit = atoi(param);
+		if (param != NULL) {
+			MainIdaInfo.pattern_node_limit = atoi(param);
+			Mprintf(0, "Set node limit for pattern searches parameter: %d\n", MainIdaInfo.pattern_node_limit);
+		}
 		break;
 	case CmdOptionAS:
 		param = CmdParam(cmdstr,1);
@@ -348,6 +356,7 @@ void OptionsMenu()
 				Options.area_srch = NO;
 		}
 		else Options.area_srch = !Options.area_srch;
+		Mprintf(0, "Set areasearch parameter: %s\n", boolToString(Options.area_srch));
 		break;
 
 	case CmdOptionMM:
@@ -359,6 +368,7 @@ void OptionsMenu()
 				Options.minimize = NO;
 		}
 		else Options.minimize = !Options.minimize;
+		Mprintf(0, "Set minimization parameter: %s\n", boolToString(Options.minimize));
 		break;
 
 	case CmdOptionLP:
@@ -370,6 +380,7 @@ void OptionsMenu()
 				Options.limit_pat = NO;
 		}
 		else Options.limit_pat = !Options.limit_pat;
+		Mprintf(0, "Set limit patterns parameter: %s\n", boolToString(Options.limit_pat));
 		break;
 
 	case CmdOptionLM:
@@ -381,6 +392,7 @@ void OptionsMenu()
 				Options.lazy_max = NO;
 		}
 		else Options.lazy_max = !Options.lazy_max;
+		Mprintf(0, "Set lazy maximization parameter: %s\n", boolToString(Options.lazy_max));
 		break;
 
 	case CmdOptionST:
@@ -392,6 +404,7 @@ void OptionsMenu()
 				Options.st_testd = NO;
 		}
 		else Options.st_testd = !Options.st_testd;
+		Mprintf(0, "Set store tested parameter: %s\n", boolToString(Options.st_testd));
 		break;
 	case CmdOptionDS:
 		param = CmdParam(cmdstr,1);
@@ -402,12 +415,14 @@ void OptionsMenu()
 				Options.dl_srch = NO;
 		}
 		else Options.dl_srch = !Options.dl_srch;
+		Mprintf(0, "Set deadsearch parameter: %s\n", boolToString(Options.dl_srch));
 		break;
         case CmdOptionPT:
 		param = CmdParam(cmdstr,1);
 		if ( param != NULL ) {
 			i = atoi(param);
 			Options.dl_db = min(7,max(0,i));
+			Mprintf(0, "Set Switch Pattern DBs parameter: %d\n", Options.dl_db);
 		}
 		break;
         case CmdOptionMP:
@@ -419,6 +434,7 @@ void OptionsMenu()
 				Options.lb_mp = NO;
 		}
 		else Options.lb_mp = !Options.lb_mp;
+		Mprintf(0, "Set LB manpos parameter: %s\n", boolToString(Options.lb_mp));
 		break;
         case CmdOptionCF:
 		param = CmdParam(cmdstr,1);
@@ -429,6 +445,7 @@ void OptionsMenu()
 				Options.lb_cf = NO;
 		}
 		else Options.lb_cf = !Options.lb_cf;
+		Mprintf(0, "Set LB conflict parameter: %s\n", boolToString(Options.lb_cf));
 		break;
          case CmdOptionDD:
 		param = CmdParam(cmdstr,1);
@@ -439,6 +456,7 @@ void OptionsMenu()
 				Options.lb_dd = NO;
 		}
 		else Options.lb_dd = !Options.lb_dd;
+		Mprintf(0, "Set Dynamic distances parameter: %s\n", boolToString(Options.lb_dd));
 		break;
         case CmdOptionTM:
 		param = CmdParam(cmdstr,1);
@@ -449,6 +467,7 @@ void OptionsMenu()
 				Options.mc_tu = NO;
 		}
 		else Options.mc_tu = !Options.mc_tu;
+		Mprintf(0, "Set Tunnel Macro parameter: %s\n", boolToString(Options.mc_tu));
 		break;
         case CmdOptionGM:
 		param = CmdParam(cmdstr,1);
@@ -459,6 +478,7 @@ void OptionsMenu()
 				Options.mc_gm = NO;
 		}
 		else Options.mc_gm = !Options.mc_gm;
+		Mprintf(0, "Set Goal Macro parameter: %s\n", boolToString(Options.mc_gm));
 		break;
         case CmdOptionCG:
 		param = CmdParam(cmdstr,1);
@@ -469,6 +489,7 @@ void OptionsMenu()
 				Options.cut_goal = NO;
 		}
 		else Options.cut_goal = !Options.cut_goal;
+		Mprintf(0, "Set Cut Goal Macro parameter: %s\n", boolToString(Options.cut_goal));
 		break;
        case CmdOptionXD:
 		param = CmdParam(cmdstr,1);
@@ -479,6 +500,7 @@ void OptionsMenu()
 				Options.xdist = NO;
 		}
 		else Options.xdist = !Options.xdist;
+		Mprintf(0, "Set eXtended Distance parameter: %s\n", boolToString(Options.xdist));
 		break;
 	case CmdOptionLC:
 		param  = CmdParam(cmdstr,1);
@@ -497,6 +519,7 @@ void OptionsMenu()
 				Options.autolocal = NO;
 		}
 		else Options.autolocal = !Options.autolocal;
+		Mprintf(0, "Set Auto Set Local Cut Parameter parameter: %s\n", boolToString(Options.autolocal));
 		break;
        case CmdOptionOE:
 		param = CmdParam(cmdstr,1);
@@ -514,6 +537,7 @@ void OptionsMenu()
 				Options.assumedead = NO;
 		}
 		else Options.assumedead = !Options.assumedead;
+		Mprintf(0, "Set Assume dead parameter: %s\n", boolToString(Options.assumedead));
 		break;
 	case CmdOptionMO:
 		param = CmdParam(cmdstr,1);
@@ -521,16 +545,18 @@ void OptionsMenu()
 			i = atoi(param);
 			switch (i) {
 			case 0: IdaInfo->MoveOrdering = NoMoveOrdering;
+				Mprintf(0, "Set Move order parameter: NoMoveOrdering\n");
 				break;
 			case 1:
 			case 2:
 			case 3: IdaInfo->MoveOrdering = ManDistMoveOrdering;
+				Mprintf(0, "Set Move order parameter: ManDistMoveOrdering\n");
 				break;
 			case 4: IdaInfo->MoveOrdering = NewMoveOrdering;
+				Mprintf(0, "Set Move order parameter: NewMoveOrdering\n");
 				break;
-			default: Mprintf(0,
-					"WARNING: NoMoveOrdering set!\n");
-				IdaInfo->MoveOrdering = NoMoveOrdering;
+			default: IdaInfo->MoveOrdering = NoMoveOrdering;
+				Mprintf(0, "WARNING: NoMoveOrdering set!\n");
 				break;
 			}
 		}
@@ -563,6 +589,8 @@ COMMAND
 GetCommand(char prompt[], CMDMENU cmdMenu[], char cmdstr[] )
 {
    int  i;
+   char c;
+   char opposite_case;
 
    /*
       Read input string and log to file.
@@ -609,10 +637,24 @@ GetCommand(char prompt[], CMDMENU cmdMenu[], char cmdstr[] )
          Check if entered command is legal.  If so return the
          command type.
       */
+      /* Search using strict case */
+      i = 0;
       while ( cmdMenu[i].keys != NULL ) {
-         if ( strchr(cmdMenu[i].keys,cmdstr[0]) != NULL )
-            return ( cmdMenu[i].cmd );
-         i++;
+          c = cmdstr[0];
+          if (strchr(cmdMenu[i].keys, c) != NULL) {
+              return ( cmdMenu[i].cmd );
+          }
+          i++;
+      }
+      /* Search using opposite case */
+      i = 0;
+      while ( cmdMenu[i].keys != NULL ) {
+          c = cmdstr[0];
+          opposite_case = (islower(c)) ? toupper(c) : tolower(c);
+          if (strchr(cmdMenu[i].keys, opposite_case) != NULL) {
+              return ( cmdMenu[i].cmd );
+          }
+          i++;
       }
    }
 
@@ -750,4 +792,8 @@ READ_TO:
 	}
 READ_END:
 	;
+}
+
+const char* boolToString(bool value) {
+    return value ? "on" : "off";
 }

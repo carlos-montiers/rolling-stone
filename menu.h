@@ -95,3 +95,4 @@ COMMAND  GetCommand(char prompt[], CMDMENU *pcmdMenu, char cmdstr[] );
 char    *CmdParam( char cmdstr[], int no );
 void     ParseMakeMoves(char *param);
 
+const char* boolToString(bool value);
