@@ -150,14 +150,9 @@ printf("removing goal macro\n");
 
 	MainIdaInfo.StopTimeMS = GetTimeInMilliseconds();
 
-	if (MainIdaInfo.TimedOut == YES) {
-		Debug( 0, -1, "\n%s\n\n", IdaInfo->IdaMaze->name );
-		Debug( 0, -1, "Timeout!\n");
-	} else {
-		valid_solution = PrintSolution();
-		if (valid_solution) {
-			PrintSolutionUsingLURDNotation(); /* BD */
-		}
+	valid_solution = PrintSolution();
+	if (valid_solution) {
+		PrintSolutionUsingLURDNotation(); /* BD */
 	}
 
 	uint64_t timeSeconds = CalculateElapsedTimeSeconds(MainIdaInfo.StartTimeMS, MainIdaInfo.StopTimeMS);
@@ -212,7 +207,10 @@ bool PrintSolution()
 	valid_solution = ValidSolution(maze,solution);
 	Debug( 0, -1, "\n%s\n\n", maze->name );
 	if (!valid_solution) {
-		if (i == 0) {
+		if (MainIdaInfo.TimedOut == YES) {
+			Debug( 0, -1, "Timeout!\n");
+		}
+		else if (i == 0) {
 			Debug(0, -1, "No solution found\n");
 		} else {
 			Debug(0, -1, "Invalid solution\n");
