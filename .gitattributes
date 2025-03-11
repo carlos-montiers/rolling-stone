@@ -1,2 +1,3 @@
 screens/DL.* binary
 screens/screen.* text eol=lf
+"puzzles/*.txt" text eol=lf
