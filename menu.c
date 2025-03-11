@@ -484,7 +484,9 @@ void OptionsMenu()
 		param  = CmdParam(cmdstr,1);
 		param2 = CmdParam(cmdstr,2);
 		param3 = CmdParam(cmdstr,3);
-		SetLocalCut(atoi(param),atoi(param2),atoi(param3));
+		if (param != NULL && param2 != NULL) {
+			SetLocalCut(atoi(param), atoi(param2), ((param3 != NULL) ? atoi(param3) : 0));
+		}
 		break;
        case CmdOptionLA:
 		param = CmdParam(cmdstr,1);
