@@ -659,7 +659,6 @@ char
                 if (*p == '\\' && *(p + 1)) p++;       /* Skip escape character */
                 p++;
             }
-            if (!*p) return NULL;                      /* Error: Unclosed quote */
             *p = '\0';                           /* Null-terminate the argument */
             p++;                                     /* Move past closing quote */
         } else {                                           /* Unquoted argument */
