@@ -120,6 +120,7 @@ MainMenu()
    char    cmdstr[SZ_CMDSTR+1];
    char    name[SZ_CMDSTR+1]; /* BD */
    char    *param;
+   char    *param2;
    FILE    *fp;
    int     no,i;
    MOVE    move;
@@ -134,8 +135,11 @@ MainMenu()
       switch ( cmd ) {
 
 	case CmdSolve:
-			MakeName(name,&Cur_Maze_Number, CmdParam(cmdstr,1),
-							CmdParam(cmdstr,2));
+			param = CmdParam(cmdstr,1);
+			param2 = CmdParam(cmdstr,2);
+
+			if (param != NULL) {
+			MakeName(name,&Cur_Maze_Number, param, param2);
 			if ((fp = fopen(name,"r")) != NULL) {
 				Mprintf( 0, "\n\nMaze %s\n\n", name ); /* BD */
 				MainIdaInfo.IdaMaze = &Maze;
@@ -148,6 +152,7 @@ MainMenu()
 				StartIda(YES);
 			} else {
                                 My_exit(1,"Menu: %s %s\n",name,strerror(errno));
+			}
 			}
 			break;
 	case CmdAbort:
