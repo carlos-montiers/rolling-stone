@@ -1,7 +1,7 @@
 #CC = purify -freeze-on-error=yes -inuse-at-exit=yes gcc
 CC = gcc
 
-OPT = -O2 -s
+OPT = -O2 -s -flto
 ifeq ($(OS),Windows_NT)
   OPT += -D_WIN32
 endif
