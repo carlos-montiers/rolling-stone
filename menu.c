@@ -151,7 +151,7 @@ MainMenu()
 
 				StartIda(YES);
 			} else {
-                                My_exit(1,"Menu: %s %s\n",name,strerror(errno));
+                                Debug(0,-1,"Menu: %s %s\n",name,strerror(errno));
 			}
 			}
 			break;
