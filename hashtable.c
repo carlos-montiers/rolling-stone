@@ -183,7 +183,7 @@ HASHENTRY *PSStoreHashTable(MAZE *maze, int down, int min_h, int pathflag)
 	HASHKEY    hashkey = maze->hashkey&HASHMASK;
 	HASHENTRY *entry   = &(IdaInfo->HashTable[hashkey]);
 
-	SR(Debug(6,0,"StoreHashTable: %" PRIx64 " %" PRIx64 " down: %i min_h: %i\n",
+	SR(Debug(6,0,"PSStoreHashTable: %" PRIx64 " %" PRIx64 " down: %i min_h: %i\n",
 		maze->hashkey, hashkey, down, min_h));
 	if (   entry->lock != 0
 	    && entry->lock != maze->hashkey) {
@@ -204,7 +204,7 @@ HASHENTRY *PSGetHashTable(MAZE *maze) {
 	HASHKEY hashkey = maze->hashkey&HASHMASK;
 	HASHENTRY *entry = &IdaInfo->HashTable[ hashkey ];
 
-	SR(Debug(6,0,"  GetHashTable: %" PRIx64 " %" PRIx64 " down: %i min_h: %i\n",
+	SR(Debug(6,0,"  PSGetHashTable: %" PRIx64 " %" PRIx64 " down: %i min_h: %i\n",
 		maze->hashkey, hashkey, entry->down, entry->min_h));
 	IdaInfo->tt_reqs++;
 	if (Options.tt==0) return(NULL);

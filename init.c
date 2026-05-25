@@ -102,7 +102,7 @@ void ResetMaze(MAZE *maze)  {
 		maze->Phys[pos].min_dim   =  0;
 		maze->Phys[pos].free      =  0;
 		maze->Phys[pos].s_free    =  0;
-		maze->PHYSstone[pos]     = -1;
+		maze->PHYSstone[pos]      = -1;
 		maze->Phys[pos].goal      = -1;
 		maze->groom_index[pos] = -2;
 		if (maze->macros[pos].type!=4)

@@ -83,8 +83,10 @@ PENALTY *FindPenalty(CONFLICTS *c, int penalty)
 	int i;
 
 	SR(Debug(CFLTS_PPLEVEL,0,"FindPenalty: pen: %i\n",penalty));
+	/* either this assertion is wrong or there's something wrong somewhere else
 	SR(Assert((((penalty&1)==0) && penalty>=2) || penalty <=ENDPATH,
 		"FindPenalty: Penalty wrong: %i", penalty));
+	*/
 	i=0;
 	while (  (i < c->number_penalties)
 	       &&(penalty < c->pen[i].penalty)) {

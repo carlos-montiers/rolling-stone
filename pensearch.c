@@ -501,7 +501,7 @@ int PenMiniConflict(int penalty, int minimize)
 						/PATTERNLIMITDIV;
 		IdaInfo->goal_last_to   = old_idainfo->goal_last_to;
 		IdaInfo->closest_confl  = 0;
-		IdaInfo->base_indent   += 2;
+		IdaInfo->base_indent	= old_idainfo->base_indent + 2;
 		IdaInfo->PrintPriority  = PENPATTERNSEARCHPP;
 		IdaInfo->HashTable      = HashTablePen;
 		IdaInfo->MiniFlag	= YES;
