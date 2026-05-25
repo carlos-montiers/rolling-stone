@@ -84,9 +84,6 @@ int StartIda(int nomacro) {
 START_IDA:
 	InitHashTables();
 
-	ScanSearch(IdaInfo->IdaMaze);
-	scan_node_count = total_node_count;
-
         memset( &IdaInfo->IdaArray[ 0 ].solution, 0, sizeof( MOVE ) );
 	area_pos_nc = area_pos_sc = area_neg_nc = area_neg_sc = 0;
 	dl_pos_nc = dl_pos_sc = dl_neg_nc = dl_neg_sc = 0;
@@ -95,6 +92,8 @@ START_IDA:
 	Set0BS(IdaInfo->IdaManSquares);
 	Set0BS(IdaInfo->IdaStoneSquares);
 	IdaInfo->CurrentSolutionDepth = ENDPATH;
+	ScanSearch(IdaInfo->IdaMaze);
+	scan_node_count = total_node_count;
 	for (IdaInfo->Threshold = IdaInfo->IdaMaze->h;
 	       (IdaInfo->CurrentSolutionDepth > IdaInfo->Threshold)
 	     &&(  (IdaInfo->Threshold < (IdaInfo->IdaMaze->h<<1) )

@@ -105,6 +105,7 @@ void init_stats() {
 	IdaInfo->tt_hits    = 0;
 	IdaInfo->tt_cols    = 0;
 	IdaInfo->tt_reqs    = 0;
+	MainIdaInfo.dcache_hits = 0;
 }
 
 void print_stats(int pri) {

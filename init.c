@@ -72,6 +72,14 @@ void ResetMaze(MAZE *maze)  {
 	PHYSID pos,dir;
 	int i;
 
+	total_node_count = 0;
+
+	My_free(maze->lbtable);
+	My_free(maze->stones);
+	My_free(maze->goals);
+	maze->lbtable = NULL;
+	maze->stones  = NULL;
+	maze->goals   = NULL;
 	memset(&(maze->Phys),0,sizeof(PHYS)*XSIZE*YSIZE);
 	Set0BS( maze->reach );
 	maze->number_goals   = 0;
